@@ -17,12 +17,6 @@ public class Brand extends Waldflaeche {
 
 	@Override
 	public void feuer() {
-		if(this.brennzeit==Waldflaeche.brenndauer){
-			this.brennen=false;
-			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y);
-			return;
-		}
-		
 		try {
 			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
@@ -56,4 +50,9 @@ public class Brand extends Waldflaeche {
 		}
 		}
 	}
+
+@Override
+public String toString() {
+	return "B";
+}
 }

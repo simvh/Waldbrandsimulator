@@ -3,12 +3,12 @@ package wald;
 public class Asche extends Waldflaeche {
 
 	
-	public Asche(int x,int y){
+	public Asche(int x,int y,int z){
 		this.x=x;
 		this.y=y;
 		this.brennzeit=0;
 		this.brennen=false;
-		this.zuendcounter=0;
+		this.zuendcounter=z;
 	}
 	
 	@Override
@@ -27,6 +27,11 @@ public class Asche extends Waldflaeche {
 	public void st(boolean bren) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String toString() {
+		return "A";
 	}
 
 }

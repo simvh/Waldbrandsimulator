@@ -4,10 +4,12 @@ import java.io.*;
 public class wald {
 	
 	public Waldflaeche flaeche[][];
-	protected int Bäume,Waldbestand;
+	public int Bäume,Waldbestand;
+	public boolean brenntnoch;
 	public wald(String filename) throws FileNotFoundException{
 		Scanner sc=new Scanner(new File(filename));
 		int i,j;
+		this.brenntnoch=false;
 		i=sc.nextInt();
 		j=sc.nextInt();
 		this.Bäume=i*j;
@@ -33,6 +35,7 @@ public class wald {
 	public void runde(){
 		int i=flaeche.length;
 		int j=flaeche[0].length;
+		this.brenntnoch=false;
 		for(int s=0;s<2;s++){
 			for(int x=0;x<i;x++){
 				for(int y=0;y<j;y++){

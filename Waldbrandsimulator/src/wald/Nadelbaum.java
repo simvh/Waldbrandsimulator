@@ -23,11 +23,11 @@ public class Nadelbaum extends Waldflaeche {
 	public void feuer() {
 		if(this.brennzeit==Nadelbaum.brenndauer){
 			this.brennen=false;
-			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y);
+			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter);
 			Waldflaeche.wald.Bäume--;
 			return;
 		}
-		
+		wald.brenntnoch=true;
 		try {
 			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
@@ -64,13 +64,19 @@ public class Nadelbaum extends Waldflaeche {
 				if (this.zuendcounter>=Nadelbaum.zuendzeit){
 					this.brennen=true;
 				}
-			}else{
+			}else{if (this.brennen==false){
 				if(this.zuendcounter>0){
 					this.zuendcounter--;
 				}
 			}
+			}
 			this.gezuendet=false;
 		}
 	}
+
+@Override
+public String toString() {
+	return "N";
+}
 
 }
