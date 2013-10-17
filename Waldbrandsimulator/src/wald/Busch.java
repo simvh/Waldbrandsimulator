@@ -24,6 +24,7 @@ public class Busch extends Waldflaeche {
 		if(this.brennzeit==Busch.brenndauer){
 			this.brennen=false;
 			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y);
+			Waldflaeche.wald.Bäume--;
 			return;
 		}
 		

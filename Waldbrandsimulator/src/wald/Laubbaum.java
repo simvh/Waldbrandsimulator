@@ -24,6 +24,7 @@ public class Laubbaum extends Waldflaeche {
 		if(this.brennzeit==Laubbaum.brenndauer){
 			this.brennen=false;
 			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y);
+			Waldflaeche.wald.Bäume--;
 			return;
 		}
 		
