@@ -18,12 +18,28 @@ public class Busch extends Waldflaeche {
 		this.zuendcounter++;
 		this.gezuendet=true;
 	}
+	
+	public void entzünden(Waldflaeche w) {
+		this.zuendcounter++;
+		this.gezuendet=true;
+		for(int i=0;i<12;i++){
+			if(this.entzundetvon[i]!=null){
+			if(this.entzundetvon[i].x==w.x&&this.entzundetvon[i].y==w.y){
+				break;
+			}
+			}else{
+				this.entzundetvon[i]=w;
+				break;
+			}
+		}
+	}
 
 	@Override
 	public void feuer() {
 		if(this.brennzeit==Busch.brenndauer){
 			this.brennen=false;
-			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter);
+			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter,this.entzundetvon,this.inbrantgesteckt);
+			this.inbrannt();
 			Waldflaeche.wald.Bäume--;
 			return;
 		}

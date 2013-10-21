@@ -16,6 +16,17 @@ public class Brand extends Waldflaeche {
 	}
 
 	@Override
+	public void entzünden(Waldflaeche w) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void inbrannt() {
+		
+	}
+
+	@Override
 	public void feuer() {
 		try {
 			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();

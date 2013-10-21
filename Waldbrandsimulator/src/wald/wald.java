@@ -2,7 +2,7 @@ package wald;
 import java.util.Scanner;
 import java.io.*;
 public class wald {
-	
+	public int runde=0;
 	public Waldflaeche flaeche[][];
 	public int Bäume,Waldbestand;
 	public boolean brenntnoch;
@@ -33,6 +33,7 @@ public class wald {
 	}
 	
 	public void runde(){
+		runde++;
 		int i=flaeche.length;
 		int j=flaeche[0].length;
 		this.brenntnoch=false;
