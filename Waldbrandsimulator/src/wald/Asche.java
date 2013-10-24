@@ -1,7 +1,7 @@
 package wald;
 
 public class Asche extends Waldflaeche {
-
+	public boolean busch;
 	public int runde;
 	public Asche(int x,int y,int z){
 		this.x=x;
@@ -10,17 +10,19 @@ public class Asche extends Waldflaeche {
 		this.brennen=false;
 		this.zuendcounter=z;
 		this.runde=Asche.wald.runde;
+		this.inbrantgesteckt=0;
 	}
 	
-	public Asche(int x,int y,int z,Waldflaeche entzundet[],int inbranntgesteckt){
+	public Asche(int x,int y,int z,point entzundet[],boolean busch){
 		this.x=x;
 		this.y=y;
+		this.busch=busch;
 		this.brennzeit=0;
 		this.brennen=false;
 		this.zuendcounter=z;
 		this.runde=Asche.wald.runde;
 		this.entzundetvon=entzundet;
-		this.inbrantgesteckt=inbranntgesteckt;
+		this.inbrantgesteckt=0;
 		
 	}
 	

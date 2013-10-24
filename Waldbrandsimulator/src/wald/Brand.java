@@ -7,8 +7,9 @@ public class Brand extends Waldflaeche {
 		this.x=x;
 		this.y=y;
 		this.brennzeit=0;
-		this.brennen=false;
+		this.brennen=true;
 		this.zuendcounter=0;
+		this.inbrantgesteckt=0;
 	}
 	
 	@Override
@@ -18,7 +19,7 @@ public class Brand extends Waldflaeche {
 	@Override
 	public void entzünden(Waldflaeche w) {
 		// TODO Auto-generated method stub
-		
+		;
 	}
 
 	@Override
@@ -28,25 +29,22 @@ public class Brand extends Waldflaeche {
 
 	@Override
 	public void feuer() {
+		
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
-			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
-			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
-			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
-			
 		}
 		
 		

@@ -4,13 +4,15 @@ public class Laubbaum extends Waldflaeche {
 
 	private final static int zuendzeit=4;
 	private final static int brenndauer=4;
-	
+//	private boolean gezuendet;
 	public Laubbaum(int x,int y){
 		this.x=x;
 		this.y=y;
 		this.brennzeit=0;
 		this.brennen=false;
 		this.zuendcounter=0;
+		this.gezuendet=false;
+		this.inbrantgesteckt=0;
 	}
 	
 	@Override
@@ -20,14 +22,14 @@ public class Laubbaum extends Waldflaeche {
 	}
 	public void entzünden(Waldflaeche w) {
 		this.zuendcounter++;
-		this.gezuendet=true;
+		this.gezuendet=true;if(!this.brennen)
 		for(int i=0;i<12;i++){
 			if(this.entzundetvon[i]!=null){
 			if(this.entzundetvon[i].x==w.x&&this.entzundetvon[i].y==w.y){
 				break;
 			}
 			}else{
-				this.entzundetvon[i]=w;
+				this.entzundetvon[i]=new point(w.x,w.y);
 				break;
 			}
 		}
@@ -37,69 +39,73 @@ public class Laubbaum extends Waldflaeche {
 	public void feuer() {
 		if(this.brennzeit==Laubbaum.brenndauer){
 			this.brennen=false;
-			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter,this.entzundetvon,this.inbrantgesteckt);
-			this.inbrannt();
+			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter,this.entzundetvon,false);
+//			this.inbrannt();
+			for(int i=0;i<12;i++){
+				if(this.entzundetvon[i]!=null){
+				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].gezündet(this);
+			}}
 			Waldflaeche.wald.Bäume--;
 			return;
 		}
-		wald.brenntnoch=true;
+		Waldflaeche.wald.brenntnoch=true;
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y+1].entzünden();
+			Waldflaeche.wald.flaeche[this.x+1][this.y+1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y+1].entzünden();
+			Waldflaeche.wald.flaeche[this.x-1][this.y+1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+2].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y+2].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y-1].entzünden();
+			Waldflaeche.wald.flaeche[this.x+1][this.y-1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y-1].entzünden();
+			Waldflaeche.wald.flaeche[this.x-1][this.y-1].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-2].entzünden();
+			Waldflaeche.wald.flaeche[this.x][this.y-2].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+2][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x+2][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-2][this.y].entzünden();
+			Waldflaeche.wald.flaeche[this.x-2][this.y].entzünden(this);
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
