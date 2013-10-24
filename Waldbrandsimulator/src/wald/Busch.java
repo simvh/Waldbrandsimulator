@@ -1,5 +1,7 @@
 package wald;
 
+import java.math.BigInteger;
+
 public class Busch extends Waldflaeche {
 
 	private final static int zuendzeit=1;
@@ -11,7 +13,7 @@ public class Busch extends Waldflaeche {
 		this.brennzeit=0;
 		this.brennen=false;
 		this.zuendcounter=0;
-		this.inbrantgesteckt=0;
+		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	@Override

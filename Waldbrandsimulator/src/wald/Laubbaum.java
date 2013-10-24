@@ -1,5 +1,7 @@
 package wald;
 
+import java.math.BigInteger;
+
 public class Laubbaum extends Waldflaeche {
 
 	private final static int zuendzeit=4;
@@ -12,7 +14,7 @@ public class Laubbaum extends Waldflaeche {
 		this.brennen=false;
 		this.zuendcounter=0;
 		this.gezuendet=false;
-		this.inbrantgesteckt=0;
+		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	@Override

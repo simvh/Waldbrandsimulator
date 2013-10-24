@@ -2,7 +2,7 @@
  * 
  */
 package wald;
-
+import java.math.*;
 /**
  * @author s.von.hall
  *
@@ -25,7 +25,7 @@ public abstract class Waldflaeche {
 	public abstract void st(boolean bren);
 	public point entzundetvon[]=new point[12];
 	public point etbrannt[]=new point[12];
-	public long inbrantgesteckt=0;
+	public BigInteger inbrantgesteckt;
 	
 	protected void gezündet(Waldflaeche w){
 		for(int i=0;i<12;i++){
@@ -48,26 +48,26 @@ public abstract class Waldflaeche {
 			try{if(this.entzundetvon[i]==null){
 				break;
 			}
-				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].inbrantgesteckt++;
+				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].inbrantgesteckt=Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].inbrantgesteckt.add(BigInteger.ONE);
 				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].inbrannt();
 			}catch(Exception e){}
 		}
 	}
 	
-	public long bst(){
-		if (this.inbrantgesteckt!=0){
+	public BigInteger bst(){
+		if (!this.inbrantgesteckt.equals(BigInteger.ZERO)){
 			return this.inbrantgesteckt;
 		}
 		for(int i=0;i<12;i++){try{
-			this.inbrantgesteckt+=Waldflaeche.wald.flaeche[this.etbrannt[i].x][this.etbrannt[i].y].bst();
+			this.inbrantgesteckt=this.inbrantgesteckt.add(Waldflaeche.wald.flaeche[this.etbrannt[i].x][this.etbrannt[i].y].bst());
 		}catch(Exception e){}}
 			if(this.toString().equals("A")){
 				if(((Asche)this).busch){
 					return this.inbrantgesteckt;
 				}else{
-					return this.inbrantgesteckt+1;
+					return this.inbrantgesteckt.add(BigInteger.ONE);
 				}
-			}else{if(this.brennen){return this.inbrantgesteckt+1;
+			}else{if(this.brennen){return this.inbrantgesteckt.add(BigInteger.ONE);
 			}else{
 				return this.inbrantgesteckt;
 			}

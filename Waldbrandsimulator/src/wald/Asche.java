@@ -1,5 +1,7 @@
 package wald;
 
+import java.math.BigInteger;
+
 public class Asche extends Waldflaeche {
 	public boolean busch;
 	public int runde;
@@ -10,7 +12,7 @@ public class Asche extends Waldflaeche {
 		this.brennen=false;
 		this.zuendcounter=z;
 		this.runde=Asche.wald.runde;
-		this.inbrantgesteckt=0;
+		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	public Asche(int x,int y,int z,point entzundet[],boolean busch){
@@ -22,7 +24,7 @@ public class Asche extends Waldflaeche {
 		this.zuendcounter=z;
 		this.runde=Asche.wald.runde;
 		this.entzundetvon=entzundet;
-		this.inbrantgesteckt=0;
+		this.inbrantgesteckt=BigInteger.ZERO;
 		
 	}
 	

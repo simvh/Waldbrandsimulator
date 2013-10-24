@@ -1,5 +1,7 @@
 package wald;
 
+import java.math.BigInteger;
+
 public class Brand extends Waldflaeche {
 
 
@@ -9,7 +11,7 @@ public class Brand extends Waldflaeche {
 		this.brennzeit=0;
 		this.brennen=true;
 		this.zuendcounter=0;
-		this.inbrantgesteckt=0;
+		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	@Override
