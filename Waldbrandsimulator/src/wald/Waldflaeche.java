@@ -56,7 +56,7 @@ public abstract class Waldflaeche {
 	
 	public int bst(){
 		if (this.inbrantgesteckt!=0){
-			return 0;// this.inbrantgesteckt;
+			return this.inbrantgesteckt;
 		}
 		for(int i=0;i<12;i++){try{
 			this.inbrantgesteckt+=Waldflaeche.wald.flaeche[this.etbrannt[i].x][this.etbrannt[i].y].bst();
