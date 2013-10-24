@@ -25,7 +25,7 @@ public abstract class Waldflaeche {
 	public abstract void st(boolean bren);
 	public point entzundetvon[]=new point[12];
 	public point etbrannt[]=new point[12];
-	public int inbrantgesteckt=0;
+	public long inbrantgesteckt=0;
 	
 	protected void gezündet(Waldflaeche w){
 		for(int i=0;i<12;i++){
@@ -54,7 +54,7 @@ public abstract class Waldflaeche {
 		}
 	}
 	
-	public int bst(){
+	public long bst(){
 		if (this.inbrantgesteckt!=0){
 			return this.inbrantgesteckt;
 		}

@@ -15,9 +15,9 @@ public class walgenerator {
 			e.printStackTrace();
 		}
 		int i;try{
-			out.append("100 100\n");
-		for (int x=0;x<100;x++){
-			for(int y=0;y<100;y++){
+			out.append("1000 1000\n");
+		for (int x=0;x<1000;x++){
+			for(int y=0;y<1000;y++){
 				i=(int)(3*Math.random());
 				switch(i){
 				case 0: out.append('-');break;
