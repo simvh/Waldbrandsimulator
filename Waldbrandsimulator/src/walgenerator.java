@@ -24,7 +24,7 @@ public class walgenerator {
 				case 1: out.append('N');break;
 				case 2: out.append('L');break;
 				case 3: out.append('B');System.out.println("Brand");break;
-				default:out.append('F');
+				default:out.append('-');
 				}
 			}out.append('\n');
 		}

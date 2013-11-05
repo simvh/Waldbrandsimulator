@@ -1,0 +1,165 @@
+﻿Pflichtenheft Waldbrandsimulator: 
+Auftraggeber:  Gruppe 10
+Philip Klinkhammer  p.klinkhammer@fz-juelich.de
+Florian Krüger  f.krueger@fz-juelich.de
+
+
+
+Auftragnehmer:  Gruppe 2
+Simon von Hall   s.von.hall@fz-juelich.de
+Alexander Diener  a.diener@fz-juelich.de
+
+
+
+Zielbestimmung:
+
+Es soll ein Waldbrand simuliert werden, und ein Weg berechnet werden wie der Wald gerettet wird und kein Helfer verbrennt. Dazu soll wenn möglich eine graphische Oberfläche entwickelt werden auf der die Aktionen der Helfer und der Wald dargestellt werden.
+Weiterhin ermöglicht das System das Erstellen eines zufälligen Waldes.
+
+Produkteinsatz:
+
+Dieses Produkt soll bei Waldbränden helfen die Helfer zu koordinieren. Daher ist es hauptsächlich an die Feuerwehr gerichtet.
+Der Wald sollte wenn möglich nicht viel mehr als 1000*1000 groß sein, was bereits sehr hart an der Grenze der Möglichkeiten des Systems ist. Es werden Wälder der Größenordnung von 100*100 bevorzugt. Es muss die Anzahl an Helfern genau bekannt sein und der Brandherd muss bekannt sein.
+
+Produktvoraussetzungen:
+Der Wald muss in dem vorgegebenen Format sein:
+ 1.  die Breite und Länge des Waldes in einer Zeile
+ 2.  der Wald in einem Raster,
+ a)   eine Zeile =eine Zeile des Waldes
+ b) „L“-Laubbaum
+ c) „N“-Nadelbaum
+ d) „-“-Busch oder Wiese
+ e) „B“-Brandherd
+
+
+Produktübersicht:
+
+Main:
+
+
+Der Prozess stellt den Hauptprozess dar. Hier ist die Schnittstelle zwischen Anwender und dem System.
+Der Anwender kann nur über die GUI mit dem System kommunizieren. 
+
+
+GUI:
+
+
+
+Der Prozess beschreibt die Möglichkeiten der GUI.
+
+Der Prozess wird nach dem Start des Systems, vom System aufgerufen.
+
+Beschreibung:
+ 1.  Datei wählen
+ 2.  Auswahlfenster öffnen
+ 3.  Anzahl Helfer einlesen
+ 4.  Modus wählen
+ 4.1.  Präventiv Modus
+ 4.2.  Ernstfall Modus
+ 5.  Bild aktualisieren
+ 5.1.  Wald einlesen
+ 5.2.  Wald darstellen
+ 5.3.  Helfer einlesen
+ 5.4.  Helfer darstellen
+
+Programmablauf:
+
+Dieser Prozess beschreibt den Programmablauf.
+
+Nach Beendigung des Prozesses ist die Lösung errechnet und ausgegeben.
+
+Der Prozess wird beim Starten des Programms gestartet.
+
+Beschreibung:
+
+ 1.  GUI wird erstellt
+ 2.  Eingaben der GUI eingelesen
+ 3.  Computer erstellt
+ 4.  zweiten Wald erstellen
+ 5.  zweiten Wald abbrennen lassen
+ 6.  abgebrannten Wald analysieren
+ 7.  Bäume die gefällt werden müssen bestimmen
+ 8.  Helfer losschicken
+ 9.  Helfer bewegen
+ 10. . GUI aktualisieren
+ 11.  mit 9 weiter bis der Wald gerettet ist
+Wald laden:
+
+Diese Aktion soll den Wald aus einer Datei laden.
+
+Dazu muss der Wald in die Datei „wald“ gespeichert sein.
+
+Dann ist nachher der Wald im System erstellt worden, sonst kann der nicht richtig geladen werden.
+
+Der Prozess wird zu Beginn vom System gestartet oder vom Computer bei seiner Initialisierung.
+
+Beschreibung:
+ 1.  Länge und Breite einlesen
+ 2.  Die Zeile einlesen
+ 3.  ein Zeichen aus der Zeile einlesen und ein entsprechendes Objekt in das Raster schreiben
+ 4.  wiederhole 3. bis kein Zeichen mehr in der Zeile ist
+ 5.  zurück auf 2. bis keine Zeile mehr da ist.
+ 6.  Die Bäume zählen
+
+Eine Runde vom „Wald abbrennen“:
+
+Dieser Prozess lässt das Feuer eine Zeiteinheit brennen.
+
+Dazu muss der Wald geladen sein.
+
+Der Wald brennt weiter und verändert sich dem entsprechend, sonst brennt nichts.
+
+Der Prozess wird vom Computer bei der Berechnung der Lösung benutzt.
+Beschreibung:
+
+ 1. Auf jedem Feld des Waldes die Statusfunktion für das brennen ausführen
+ 1.1. Falls das Feld brennt werden die umliegenden Felder gemäß den Regeln angezündet
+ 2. Auf jedem Feld des Waldes die Statusfunktion für das aktualisieren ausführen
+ 2.1. Wenn das Feld oft genug angezündet wurde wird jetzt gespeichert das es brennt.
+ 3. Die Runden Zahl wird erhöht.
+
+
+Benutzungsoberfläche:
+
+Der Anwender hat Lese- und Schreibrechte auf die Datei „wald“ damit er den Wald einstellen kann,
+und er hat Ausführrechte auf die „Waldbrandsimulator“ Datei zum starten des Systems. Natürlich darf er auch die Nutzungsanleitung und die Dokumentation lesen.
+
+Die Eingabe der Anzahl der Helfer und des Prozentsatzes des zu rettenden Waldes sollen dann später über eine graphische Benutzeroberfläche(GUI) erfolgen.
+
+Technische Produktumgebung:
+
+
+Das System soll auf Windows OS und Linux OS laufen, Voraussetzung ist Java 1.7. Man braucht die Pakete „wald“, „contol“, „graphics“.
+
+Spezielle Anforderungen an die Entwicklungsumgebung:
+
+Das System wurde mit Eclipse Juno entwickelt. Unter Java 1.6 beziehungsweise Java 1.7.
+Das System gliedert sich in mehrere Pakete:
+„wald“
+hier sind die Grundstrukturen des Systems zu finden
+die einzelnen Bäume sind alle Unterklassen von „Waldflaeche“
+„wald“ ist ein Wald der die Runden steuert und bestimmte Informationen für die Berechnung des „Computers“ bereit stellt.
+„Asche“ ist eine Klasse die die verbrannten Bäume darstellt. Sie enthält alle wichtigen Informationen für den „Computer“:
+die Runde in der der Baum verbrannt ist
+wie oft er angezündet wurde
+wer den Baum angezündet hat
+wen der Baum angezündet hat
+einen Wert der repräsentiert wie viele Bäume durch ihn angezündet wurden auch indirekt daher ist der Wert sehr groß.
+Ob es ein Busch war
+die Klasse „Helfer“ die die Helfer mit ihren Aktionen repräsentiert
+„abgeholzt“ ist eine Klasse die die gefällten Bäume darstellt
+„point“ ist ein Punkt
+„contol“
+in diesem Paket sind die Kontrollstrukturen enthalten
+„Computer“ berechnet die Lösung des Waldbrandes
+„waldbrandmain“ ist die Klasse die das System startet
+„graphics“
+im Paket „graphics“ sind die Klassen zur graphischen Darstellung des Systems enthalten
+„tests“
+das Paket „tests“ beinhaltet die Klassen und Dateien die zum Testen des Systems benutzt wurden
+„data“
+das Paket „data“ enthält weitere Dateien
+Dokumentation
+Benutzungsanleitung
+usw.
+

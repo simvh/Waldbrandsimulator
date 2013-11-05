@@ -20,7 +20,7 @@ public abstract class Waldflaeche {
 	protected int brennzeit;
 	protected static  int brenndauer;
 	protected int zuendcounter;
-	public abstract void feuer();
+	protected abstract void feuer();
 	public static wald wald; 
 	public abstract void st(boolean bren);
 	public point entzundetvon[]=new point[12];
