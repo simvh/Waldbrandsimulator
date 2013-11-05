@@ -1,5 +1,5 @@
 import java.io.*;
-public class walgenerator {
+public class waldgenerator {
 
 	/**
 	 * @param args
