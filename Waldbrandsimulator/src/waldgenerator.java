@@ -8,6 +8,8 @@ public class waldgenerator {
 	public static void main(String[] args)  {
 		// TODO Auto-generated method stub
 		FileWriter out = null;
+		int a=10;
+		int b=10;
 		try {
 			out = new FileWriter("wald",false);
 		} catch (IOException e) {
@@ -15,9 +17,9 @@ public class waldgenerator {
 			e.printStackTrace();
 		}
 		int i;try{
-			out.append("1000 1000\n");
-		for (int x=0;x<1000;x++){
-			for(int y=0;y<1000;y++){
+			out.append(a+" "+b+"\n");
+		for (int x=0;x<a;x++){
+			for(int y=0;y<b;y++){
 				i=(int)(3*Math.random());
 				switch(i){
 				case 0: out.append('-');break;
