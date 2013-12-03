@@ -148,7 +148,7 @@ public void berechnen(){
 	if(broken==false){
 		return weg;
 	}
-	                          
+	
 	}return null;
 }
 
