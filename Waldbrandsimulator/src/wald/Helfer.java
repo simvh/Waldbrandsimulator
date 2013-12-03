@@ -2,7 +2,7 @@ package wald;
 
 public class Helfer {
 
-	protected int x,y;
+	public int x,y;
 	public static wald wald;
 	private int bewegungsmarken;
 	private boolean fällen;
@@ -17,8 +17,14 @@ public class Helfer {
 		this.richtungx=0;
 		this.richtungy=0;
 	}
+	public int getbewegungsmarken(){
+		return bewegungsmarken;
+		
+	}
 	
-	
+	public boolean isFällen() {
+		return fällen;
+	}
 	public void baumfällen(int i,int j){
 		if(this.fällen){
 		Helfer.wald.flaeche[this.x+i][this.y+j]=new abgeholzt(x+i,y+j);
@@ -35,25 +41,25 @@ public class Helfer {
 	}
 	public void gehenhoch(){
 		if(this.bewegungsmarken>0){
-			this.x--;
+			this.y--;
 			this.bewegungsmarken--;
 		}
 	}
 	public void gehenrunter(){
 		if(this.bewegungsmarken>0){
-			this.x++;
+			this.y++;
 			this.bewegungsmarken--;
 		}
 	}
 	public void gehenrechts(){
 		if(this.bewegungsmarken>0){
-			this.y++;
+			this.x++;
 			this.bewegungsmarken--;
 		}
 	}
 	public void gehenlinks(){
 		if(this.bewegungsmarken>0){
-			this.y--;
+			this.x--;
 			this.bewegungsmarken--;
 		}
 	}

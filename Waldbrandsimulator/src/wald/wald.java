@@ -2,9 +2,18 @@ package wald;
 import java.util.Scanner;
 import java.io.*;
 public class wald {
+	/**
+	 * gibt an in welcher Runde der Wald ist
+	 */
 	public int runde=0;
+	/**
+	 * Die Flaeche des Waldes
+	 */
 	public Waldflaeche flaeche[][];
 	public int Bäume,Waldbestand;
+	/**
+	 * gibt an ob der Wald noch brennt
+	 */
 	public boolean brenntnoch;
 	public wald(String filename) throws FileNotFoundException{
 		File f=new File(filename);

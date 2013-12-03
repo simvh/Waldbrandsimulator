@@ -7,23 +7,75 @@ import java.math.*;
  * @author s.von.hall
  *
  */
-public abstract class Waldflaeche {
+
+public abstract class Waldflaeche implements Comparable<Waldflaeche>{
 
 	
 
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Waldflaeche arg0) {
+		
+		return this.inbrantgesteckt.compareTo(arg0.inbrantgesteckt);
+	}
+	/**
+	 * Diese Funktion zuendet das Element einmal an.
+	 */
 	public abstract void entzünden();
+	/**
+	 * @param w Waldflaeche die in entzuendetvon notiert werden soll
+	 */
 	public abstract void entzünden(Waldflaeche w);
+	/**
+	 * brennt die Waldflaeche
+	 */
+	/**
+	 * wurde die Waldflaeche in dieser Runde angezuendet
+	 */
 	protected boolean brennen,gezuendet;
+	/**
+	 * wielange dauert es bis die Waldflaeche brennt
+	 */
 	protected static  int zuendzeit;
-	protected int x,y;
+	/**
+	 * Position im Wald
+	 */
+	public int x,y;
+	/**
+	 *gibt an wie lange die Flaeche schon brennt
+	 */
 	protected int brennzeit;
-	protected static  int brenndauer;
+	/**
+	 * gibt an wielange die Flaeche maximal brennt
+	 */
+	protected static int brenndauer;
+	/**
+	 * gibt an wie oft die Flaeche schon angezuende wurde
+	 */
 	protected int zuendcounter;
+	/**
+	 * Diese Funktion zuendet die umliegenden Felder an
+	 */
 	protected abstract void feuer();
+	/**
+	 * der Wald zur Flaeche
+	 */
 	public static wald wald; 
+	/**
+	 * @param bren wird das Feuer aktualisiert
+	 * Die Statusfunktion aktualisiert den Status der Flaeche.
+	 */
 	public abstract void st(boolean bren);
+	/**
+	 * eine Liste der Positionen von denen die Flaeche angezuendet wurde
+	 */
 	public point entzundetvon[]=new point[12];
+	/**
+	 * eine Liste von Positionen die von der Flaeche angezuendet wurde
+	 */
 	public point etbrannt[]=new point[12];
 	public BigInteger inbrantgesteckt;
 	
@@ -54,6 +106,9 @@ public abstract class Waldflaeche {
 		}
 	}
 	
+	/**
+	 * @return BigInteger Anzahl der durch das Feld entzuendeter Baeume (rekursiv ermittelt)
+	 */
 	public BigInteger bst(){
 		if (!this.inbrantgesteckt.equals(BigInteger.ZERO)){
 			return this.inbrantgesteckt;
