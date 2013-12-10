@@ -18,9 +18,9 @@ public class demo1 {
 	helfer[i*4+3]=new Helfer(99,50);
 	}
 	try {
-		wald Wald=new wald("src/data/demowald1");
+		wald Wald=new wald("./Waldbrandsimulator/src/data/demowald1");
 		Computer computer=new Computer(Wald,helfer);
-		computer.setOutstr("src/data/demo1out");
+		computer.setOutstr("./Waldbrandsimulator/src/data/demo1out");
 		computer.setModus(Modus.preventievmod);
 		computer.setModus(Modus.ernstfallmod);
 		computer.berechnen();

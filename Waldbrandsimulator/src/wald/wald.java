@@ -42,6 +42,7 @@ public class wald {
 				}
 			}
 		}
+		sc.close();
 		this.Waldbestand=this.Bäume;
 	}
 	public wald(wald w){
