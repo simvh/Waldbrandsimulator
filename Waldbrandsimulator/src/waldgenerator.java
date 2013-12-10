@@ -5,13 +5,11 @@ public class waldgenerator {
 	 * @param args
 	 * @throws IOException 
 	 */
-	public static void main(String[] args)  {
-		// TODO Auto-generated method stub
+	
+	public static void create(int a,int b,String str){
 		FileWriter out = null;
-		int a=10;
-		int b=10;
 		try {
-			out = new FileWriter("wald",false);
+			out = new FileWriter(str,false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +37,9 @@ public class waldgenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public static void main(String[] args)  {
+	waldgenerator.create(10, 10,"wald");
 	
 	}
-
 }

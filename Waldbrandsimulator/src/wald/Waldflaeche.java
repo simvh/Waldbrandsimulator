@@ -8,19 +8,12 @@ import java.math.*;
  *
  */
 
-public abstract class Waldflaeche implements Comparable<Waldflaeche>{
+public abstract class Waldflaeche {
 
 	
 
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
-	public int compareTo(Waldflaeche arg0) {
-		
-		return this.inbrantgesteckt.compareTo(arg0.inbrantgesteckt);
-	}
+	
 	/**
 	 * Diese Funktion zuendet das Element einmal an.
 	 */
@@ -35,7 +28,8 @@ public abstract class Waldflaeche implements Comparable<Waldflaeche>{
 	/**
 	 * wurde die Waldflaeche in dieser Runde angezuendet
 	 */
-	protected boolean brennen,gezuendet;
+	public boolean brennen;
+	protected boolean gezuendet;
 	/**
 	 * wielange dauert es bis die Waldflaeche brennt
 	 */
@@ -47,7 +41,7 @@ public abstract class Waldflaeche implements Comparable<Waldflaeche>{
 	/**
 	 *gibt an wie lange die Flaeche schon brennt
 	 */
-	protected int brennzeit;
+	public int brennzeit;
 	/**
 	 * gibt an wielange die Flaeche maximal brennt
 	 */
@@ -55,7 +49,7 @@ public abstract class Waldflaeche implements Comparable<Waldflaeche>{
 	/**
 	 * gibt an wie oft die Flaeche schon angezuende wurde
 	 */
-	protected int zuendcounter;
+	public int zuendcounter;
 	/**
 	 * Diese Funktion zuendet die umliegenden Felder an
 	 */

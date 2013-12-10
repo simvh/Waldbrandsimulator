@@ -37,11 +37,36 @@ public class wald {
 				case 'L': flaeche[x][y]= new Laubbaum(x,y);break;
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
+				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
 				}
 			}
 		}
 		this.Waldbestand=this.Bäume;
 	}
+	public wald(wald w){
+		int i,j;
+		this.brenntnoch=w.brenntnoch;
+		i=w.flaeche.length;
+		j=w.flaeche[0].length;
+		this.flaeche=new Waldflaeche[i][j];
+		for(int x=0;x<i;x++){
+			for(int y=0;y<j;y++){
+				switch(w.flaeche[x][y].toString()){
+				case "N": flaeche[x][y]= new Nadelbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case "L": flaeche[x][y]= new Laubbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case "-": flaeche[x][y]= new Busch(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case "B": flaeche[x][y]= new Brand(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case "A": flaeche[x][y]=new Asche(x,y,0);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case "a": flaeche[x][y]=new abgeholzt(x,y);break;
+				}
+				}
+			}
+		this.Bäume=w.Bäume;
+		this.Waldbestand=w.Waldbestand;
+	}
+		
+		
 	
 	public void runde(){
 		runde++;
@@ -59,8 +84,8 @@ public class wald {
 			}
 		}
 		
-		System.out.println("runde "+this.runde);
-		System.out.println(this.brenntnoch);
+//		System.out.println("runde "+this.runde);
+//		System.out.println(this.brenntnoch);
 		
 	}
 	public void end(){
@@ -70,7 +95,7 @@ public class wald {
 			for(int y=0;y<j;y++){
 				if(Waldflaeche.wald.flaeche[x][y].toString().equals("B")){
 				Waldflaeche.wald.flaeche[x][y].bst();
-				System.out.println(Waldflaeche.wald.flaeche[x][y].inbrantgesteckt);
+//				System.out.println(Waldflaeche.wald.flaeche[x][y].inbrantgesteckt);
 				return;
 				}
 			}

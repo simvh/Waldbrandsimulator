@@ -2,7 +2,7 @@ package wald;
 
 import java.math.BigInteger;
 
-public class Asche extends Waldflaeche {
+public class Asche extends Waldflaeche implements Comparable<Asche>{
 	public boolean busch;
 	public int runde;
 	public Asche(int x,int y,int z){
@@ -14,7 +14,14 @@ public class Asche extends Waldflaeche {
 		this.runde=Asche.wald.runde;
 		this.inbrantgesteckt=BigInteger.ZERO;
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Asche arg0) {
+		return -1*(this.runde-arg0.runde);
+//		return (this.inbrantgesteckt.subtract(arg0.inbrantgesteckt)).signum();
+	}
 	public Asche(int x,int y,int z,point entzundet[],boolean busch){
 		this.x=x;
 		this.y=y;
