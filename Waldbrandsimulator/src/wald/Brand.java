@@ -11,41 +11,41 @@ public class Brand extends Waldflaeche {
 		this.brennzeit=0;
 		this.brennen=true;
 		this.zuendcounter=0;
-		this.inbrantgesteckt=BigInteger.ZERO;
+//		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	@Override
 	public void entzünden() {
 	}
 
-	@Override
-	public void entzünden(Waldflaeche w) {
-		// TODO Auto-generated method stub
-		;
-	}
-
-	@Override
-	protected void inbrannt() {
-		
-	}
+//	@Override
+//	public void entzünden(Waldflaeche w) {
+//		// TODO Auto-generated method stub
+//		;
+//	}
+//
+//	@Override
+//	protected void inbrannt() {
+//		
+//	}
 
 	@Override
 	public void feuer() {
 		
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 		}
 		

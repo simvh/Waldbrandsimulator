@@ -14,7 +14,7 @@ public class Laubbaum extends Waldflaeche {
 		this.brennen=false;
 		this.zuendcounter=0;
 		this.gezuendet=false;
-		this.inbrantgesteckt=BigInteger.ZERO;
+//		this.inbrantgesteckt=BigInteger.ZERO;
 	}
 	
 	@Override
@@ -22,92 +22,92 @@ public class Laubbaum extends Waldflaeche {
 		this.zuendcounter++;
 		this.gezuendet=true;
 	}
-	public void entzünden(Waldflaeche w) {
-		this.zuendcounter++;
-		this.gezuendet=true;if(!this.brennen)
-		for(int i=0;i<12;i++){
-			if(this.entzundetvon[i]!=null){
-			if(this.entzundetvon[i].x==w.x&&this.entzundetvon[i].y==w.y){
-				break;
-			}
-			}else{
-				this.entzundetvon[i]=new point(w.x,w.y);
-				break;
-			}
-		}
-	}
+//	public void entzünden(Waldflaeche w) {
+//		this.zuendcounter++;
+//		this.gezuendet=true;if(!this.brennen)
+//		for(int i=0;i<12;i++){
+//			if(this.entzundetvon[i]!=null){
+//			if(this.entzundetvon[i].x==w.x&&this.entzundetvon[i].y==w.y){
+//				break;
+//			}
+//			}else{
+//				this.entzundetvon[i]=new point(w.x,w.y);
+//				break;
+//			}
+//		}
+//	}
 
 	@Override
 	public void feuer() {
 		if(this.brennzeit==Laubbaum.brenndauer){
 			this.brennen=false;
-			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter,this.entzundetvon,false);
+			Waldflaeche.wald.flaeche[this.x][this.y]=new Asche(x,y,this.zuendcounter,Waldflaeche.wald.runde-4,false);
 //			this.inbrannt();
-			for(int i=0;i<12;i++){
-				if(this.entzundetvon[i]!=null){
-				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].gezündet(this);
-			}}
+//			for(int i=0;i<12;i++){
+//				if(this.entzundetvon[i]!=null){
+//				Waldflaeche.wald.flaeche[this.entzundetvon[i].x][this.entzundetvon[i].y].gezündet(this);
+//			}}
 			Waldflaeche.wald.Bäume--;
 			return;
 		}
 		Waldflaeche.wald.brenntnoch=true;
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x+1][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y-1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x-1][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y+1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x+1][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y+1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x-1][this.y+1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y+2].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y+2].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+1][this.y-1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x+1][this.y-1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-1][this.y-1].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x-1][this.y-1].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x][this.y-2].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x][this.y-2].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x+2][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x+2][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}
 		try {
-			Waldflaeche.wald.flaeche[this.x-2][this.y].entzünden(this);
+			Waldflaeche.wald.flaeche[this.x-2][this.y].entzünden();
 		}catch (ArrayIndexOutOfBoundsException e){
 			
 		}

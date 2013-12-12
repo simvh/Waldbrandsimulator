@@ -88,17 +88,17 @@ public class wald {
 //		System.out.println(this.brenntnoch);
 		
 	}
-	public void end(){
-		int i=flaeche.length;
-		int j=flaeche[0].length;
-		for(int x=0;x<i;x++){
-			for(int y=0;y<j;y++){
-				if(Waldflaeche.wald.flaeche[x][y].toString().equals("B")){
-				Waldflaeche.wald.flaeche[x][y].bst();
-//				System.out.println(Waldflaeche.wald.flaeche[x][y].inbrantgesteckt);
-				return;
-				}
-			}
-		}
-	}
+//	public void end(){
+//		int i=flaeche.length;
+//		int j=flaeche[0].length;
+//		for(int x=0;x<i;x++){
+//			for(int y=0;y<j;y++){
+//				if(Waldflaeche.wald.flaeche[x][y].toString().equals("B")){
+//				Waldflaeche.wald.flaeche[x][y].bst();
+////				System.out.println(Waldflaeche.wald.flaeche[x][y].inbrantgesteckt);
+//				return;
+//				}
+//			}
+//		}
+//	}
 }

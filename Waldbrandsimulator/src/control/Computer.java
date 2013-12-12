@@ -8,11 +8,12 @@ import java.math.*;
 import wald.*;
 
 public class Computer {
-private wald wald,brenn,kopie;
+private wald wald,brenn;
 private Helfer helfer[];
 private ArrayList<Asche> asche;
 private Asche ziele[];
 private Weg weg[];
+private boolean da=false;
 private int gefällt=0;
 private double rest=0.5;
 private Modus modus=Modus.ernstfallmod;
@@ -29,7 +30,7 @@ public void setOutstr(String outstr) {
 public Computer(wald wald ,Helfer helfer[] ) throws FileNotFoundException{
 	this.wald=wald;
 	out(wald,this.outstr);
-	this.kopie=new wald(this.outstr);
+//	this.kopie=new wald(this.outstr);
 	this.brenn=new wald(this.outstr);
 	this.helfer=helfer;
 	Helfer.wald=this.wald;
@@ -50,14 +51,14 @@ public void abbrennen(double res){
 	this.brenn.runde();
 	this.brenn.runde();
 	this.brenn.runde();
-	this.brenn.end();
+//	this.brenn.end();
 	this.out(this.brenn,"src/data/out");
 	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
 }
 
 public void berechnen(){
 System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-	this.abbrennen(0.0);
+	this.abbrennen(rest);
 	Waldflaeche.wald=this.wald;
 	for(int i=0;i<this.brenn.flaeche.length;i++){
 		for(int j=0;j<this.brenn.flaeche[0].length;j++){
@@ -93,7 +94,7 @@ System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaec
 	helfersteuerung();
 	this.wald.runde();System.out.print("[ ");for(Asche a:this.ziele)System.out.print(a+", ");System.out.println("]");
 	helfersteuerung();
-	while (((this.wald.Bäume/(double)(this.wald.Waldbestand))>0.5)&&(this.wald.brenntnoch)&&(Helfer.brennt==false)){
+	while (((this.wald.Bäume/(double)(this.wald.Waldbestand))>rest)&&(this.wald.brenntnoch)&&(Helfer.brennt==false)){
 		if(this.modus==Modus.preventievmod){this.wald.runde();//System.out.print("[ ");for(Asche a:this.ziele)System.out.print(a+", ");System.out.println("]");
 		helfersteuerung();}else{
 			this.wald.runde();
@@ -104,19 +105,7 @@ System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaec
 			helfersteuerung();
 			this.wald.runde();
 			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			this.wald.runde();
-			helfersteuerung();
-			try {
+			try {if(da)
 				neubrennen();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -193,7 +182,10 @@ public void neubrennen() throws FileNotFoundException{
 		for(int y=0;y<wald.flaeche[0].length;y++){
 		brenn.flaeche[x][y].brennen=wald.flaeche[x][y].brennen;brenn.flaeche[x][y].brennzeit=wald.flaeche[x][y].brennzeit;brenn.flaeche[x][y].zuendcounter=wald.flaeche[x][y].zuendcounter;
 		}
-		}
+		}this.brenn.runde=this.wald.runde;
+		this.brenn.Bäume=this.wald.Bäume;
+		this.brenn.Waldbestand=this.wald.Waldbestand;
+		this.brenn.brenntnoch=this.wald.brenntnoch;
 	this.abbrennen(this.rest);
 	this.asche=new ArrayList<Asche>();
 	for(int i=0;i<this.brenn.flaeche.length;i++){
@@ -252,11 +244,11 @@ private void preventiev(int i){
 			c=0;
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("B"))broken=true;
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("A")){
-			if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+2>=rund){
+			if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-1<=rund){
 				switch(this.wald.flaeche[helfer.x][helfer.y].toString()){
-				case "L":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-4){broken=true;}break;
-				case "N":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-2){broken=true;}break;
-				case "-":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-1){broken=true;}break;
+				case "L":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+4){broken=true;}break;
+				case "N":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+2){broken=true;}break;
+				case "-":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+1){broken=true;}break;
 				case "B":broken=true;break;
 				}
 				if(broken){
@@ -347,11 +339,11 @@ private void preventiev(int i){
 	rund++;
 	if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("B"))broken=true;
 	if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("A")){
-		if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+3>=rund){
+		if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-3<=rund){
 			switch(this.wald.flaeche[helfer.x][helfer.y].toString()){
-			case "L":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-5){broken=true;}break;
-			case "N":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-3){broken=true;}break;
-			case "-":if(rund+2>=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-2){broken=true;}break;
+			case "L":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+5){broken=true;}break;
+			case "N":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+3){broken=true;}break;
+			case "-":if(rund+2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+2){broken=true;}break;
 			case "B":broken=true;break;
 			}}}
 	
@@ -437,7 +429,7 @@ void weglaufen(int i){
 				
 			}else{
 				helfer.baumfällen(ziel.x-helfer.x, ziel.y-helfer.y);
-				this.kopie.flaeche[ziel.x][ziel.y]=new abgeholzt(ziel.x,ziel.y);
+//				this.kopie.flaeche[ziel.x][ziel.y]=new abgeholzt(ziel.x,ziel.y);
 				this.gefällt++;
 				switch(this.modus){
 				
@@ -445,7 +437,7 @@ void weglaufen(int i){
 					preventiev(i);
 					} catch (FileNotFoundException e) {
 					}break;
-					case ernstfallmod: zielermitteln(i);break;
+					case ernstfallmod:da=true; zielermitteln(i);break;
 				}
 			}
 		}
