@@ -11,13 +11,13 @@ public class brenntest {
 
 	/**
 	 * @param args
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		wald w=new wald("./Waldbrandsimulator/src/data/demowald1");
-		Helfer hel[]=new Helfer[10];
-		Computer cp=new Computer(w,hel);
+		wald w = new wald("./Waldbrandsimulator/src/data/demowald1");
+		Helfer hel[] = new Helfer[10];
+		Computer cp = new Computer(w, hel);
 		cp.abbrennen(0.5);
 	}
 

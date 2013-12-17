@@ -1,5 +1,5 @@
 package control;
 
 public enum Weg {
-wagsenk,wagdia,senkdia,senkwag
+	wagsenk, wagdia, senkdia, senkwag
 }

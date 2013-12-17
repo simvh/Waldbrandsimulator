@@ -1,9 +1,12 @@
 package wald;
+/**
+ * @author s.von.hall
+ */
 
 public class abgeholzt extends Asche {
 
 	public abgeholzt(int x, int y) {
-		super(x, y,0);
+		super(x, y, 0);
 		// TODO Auto-generated constructor stub
 	}
 
