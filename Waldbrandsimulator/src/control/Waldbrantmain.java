@@ -7,8 +7,8 @@ import java.util.*;
 
 public class Waldbrantmain {
 
-	private wald wald;
-	private Helfer Helfer[];
+	/*private wald wald;
+	private Helfer Helfer[];*/
 	/**
 	 * @param args
 	 * @throws FileNotFoundException 
@@ -32,6 +32,7 @@ public class Waldbrantmain {
 		x=sc.nextInt();
 		System.out.println("Start Y Koordinate der Helfer eingeben");
 		y=sc.nextInt();
+		sc.close();
 		for(int i=0;i<helfer.length;i++){
 			helfer[i]=new Helfer(x,y);
 		}
