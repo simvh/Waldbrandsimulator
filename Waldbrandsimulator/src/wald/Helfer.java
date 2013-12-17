@@ -7,7 +7,7 @@ public class Helfer {
 	private int bewegungsmarken;
 	private boolean fällen;
 	public static boolean brennt=false;
-	private int richtungx,richtungy; 
+	private int richtungx, richtungy; 
 	
 	public Helfer(int x,int y){
 		this.x=x;

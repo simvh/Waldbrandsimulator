@@ -17,7 +17,7 @@ private boolean da=false;
 private int gefällt=0;
 private double rest=0.5;
 private Modus modus=Modus.ernstfallmod;
-private String outstr="src/data/out";
+private String outstr="./Waldbrandsimulator/src/data/out";
 public Modus getModus() {
 	return modus;
 }
@@ -53,6 +53,9 @@ public void abbrennen(double res){
 	this.brenn.runde();
 //	this.brenn.end();
 //	this.out(this.brenn,"src/data/out");
+//	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
+//	this.brenn.end();
+//	this.out(this.brenn,"./Waldbrandsimulator/src/data/out");
 //	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
 }
 
@@ -488,7 +491,7 @@ private void out(wald wa,String str){
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	int i;try{
+	try{
 		out.append(""+wa.flaeche.length+" "+wa.flaeche[0].length+"\n");
 	for (int x=0;x<wa.flaeche.length;x++){
 		for(int y=0;y<wa.flaeche[0].length;y++){
