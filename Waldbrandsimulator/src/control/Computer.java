@@ -17,6 +17,7 @@ private int gefällt=0;
 private double rest=0.5;
 private Modus modus=Modus.ernstfallmod;
 private String outstr="src/data/out";
+
 public Modus getModus() {
 	return modus;
 }
@@ -57,6 +58,7 @@ public void abbrennen(double res){
 //	this.out(this.brenn,"./Waldbrandsimulator/src/data/out");
 //	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
 }
+
 
 public void berechnen(){
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
