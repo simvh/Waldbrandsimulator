@@ -247,7 +247,7 @@ private void preventiev(int i){
 	while(Math.abs(helfer.x-ziel.x)+Math.abs(helfer.y-ziel.y)>1){// noch nicht am Ziel
 		if(c==2){
 			rund++;
-			c=0;
+			c=0;}
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("B"))broken=true;
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("A")){
 			if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-1<=rund){
@@ -261,7 +261,7 @@ private void preventiev(int i){
 					break;
 				}
 			}
-		}}
+		}
 		if(helfer.x-ziel.x<0){
 			if(helfer.y-ziel.y<0){
 				switch(weg){

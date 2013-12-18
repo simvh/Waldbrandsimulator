@@ -79,7 +79,7 @@ public class Helfer {
 	}
 	public void entzünden(){
 		//Helfer.brennt=true;
-//		System.out.println("Helfer brennt!!!!!!");
+		System.out.println("Helfer brennt!!!!!!");
 //		System.out.println(this.x+" "+this.y+" "+Helfer.wald.flaeche[x][y]);
 		//System.out.print("[ "+Helfer.wald.flaeche[x][y].entzundetvon[0]);
 	//	for(int i=1;i<12;i++){

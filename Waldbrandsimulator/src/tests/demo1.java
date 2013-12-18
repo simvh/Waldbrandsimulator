@@ -40,7 +40,7 @@ public class demo1 {
 			Computer computer=new Computer(Wald,helfer);
 			computer.setOutstr("src/data/demo3out");
 			computer.setModus(Modus.preventievmod);
-			computer.setModus(Modus.ernstfallmod);
+//			computer.setModus(Modus.ernstfallmod);
 			computer.berechnen();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
