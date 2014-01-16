@@ -62,6 +62,7 @@ public void abbrennen(double res){
 
 public void berechnen(){
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
+	if(this.wald.Waldbestand==0)throw ( new keinWaldExeption());
 	this.abbrennen(rest);
 	Waldflaeche.wald=this.wald;
 	for(int i=0;i<this.brenn.flaeche.length;i++){
@@ -227,7 +228,7 @@ private void preventiev(int i){
 
 
 
-	private Weg ereicht(Helfer h,Asche w ){
+	public Weg ereicht(Helfer h,Asche w ){
 	point helfer=new point(h.x,h.y);
 	point ziel=new point(w.x,w.y);
 	int rund=this.wald.runde;
@@ -250,7 +251,7 @@ private void preventiev(int i){
 			c=0;}
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("B"))broken=true;
 		if(this.brenn.flaeche[helfer.x][helfer.y].toString().equals("A")){
-			if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-1<=rund){
+			if(((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde-2<=rund){
 				switch(this.wald.flaeche[helfer.x][helfer.y].toString()){
 				case "L":if(rund-2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+5){broken=true;}break;
 				case "N":if(rund-2<=((Asche)this.brenn.flaeche[helfer.x][helfer.y]).runde+3){broken=true;}break;
@@ -356,10 +357,12 @@ private void preventiev(int i){
 	if(broken==false){
 		return weg;
 	}
-	
 	}return null;
 }
 
+public void setBrenn(wald brenn) {
+		this.brenn = brenn;
+	}
 void weglaufen(int i){
 	Helfer helfer=this.helfer[i];
 	Asche ziel=this.ziele[i];
@@ -510,6 +513,18 @@ private void out(wald wa,String str){
 		e.printStackTrace();
 	}
 
+}
+public Helfer[] getHelfer() {
+	return helfer;
+}
+public void setHelfer(Helfer[] helfer) {
+	this.helfer = helfer;
+}
+public void setWald(wald wald) {
+	this.wald = wald;
+}
+public wald getWald() {
+	return wald;
 }
 
 }

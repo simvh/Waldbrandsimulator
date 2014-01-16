@@ -102,4 +102,21 @@ public class wald {
 //			}
 //		}
 //	}
+	
+public String toString(){
+	String out="";
+	out+=flaeche.length+" "+flaeche[0].length+"\n";
+	for (int x=0;x<flaeche.length;x++){
+		for(int y=0;y<flaeche[0].length;y++){
+			out+=""+flaeche[x][y].toString();
+			}out+='\n';
+		}
+	
+	return out;
+	
+}
+	
+	
+	
+	
 }
