@@ -16,7 +16,7 @@ private boolean da=false;
 private int gefällt=0;
 private double rest=0.5;
 private Modus modus=Modus.ernstfallmod;
-private String outstr="src/data/out";
+private String outstr=control.pfad.src+"src/data/out";
 
 public Modus getModus() {
 	return modus;
@@ -128,7 +128,7 @@ public void berechnen(){
 	out(this.wald,outstr);
 }
 
-private void helfersteuerung(){
+public void helfersteuerung(){
 	for(int i=0;i<this.helfer.length;i++){//System.out.println(this.weg[i]);
 		if(this.ziele[i]==null)zielermitteln(i);
 //		System.out.println(this.helfer[i].x+" "+this.helfer[i].y);
@@ -363,7 +363,7 @@ private void preventiev(int i){
 public void setBrenn(wald brenn) {
 		this.brenn = brenn;
 	}
-void weglaufen(int i){
+private void weglaufen(int i){
 	Helfer helfer=this.helfer[i];
 	Asche ziel=this.ziele[i];
 	Weg weg=this.weg[i];

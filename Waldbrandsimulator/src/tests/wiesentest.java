@@ -16,7 +16,7 @@ public class wiesentest {
 	Computer cp;
 	@Before
 	public void setUp() throws Exception {
-		w=new wald("src/data/wiesentest.txt");
+		w=new wald(control.pfad.src+"src/data/wiesentest.txt");
 		helfer[0]=new Helfer(9,9);
 		helfer[1]=new Helfer(9,0);
 		helfer[2]=new Helfer(0,9);
