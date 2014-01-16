@@ -16,7 +16,7 @@ private boolean da=false;
 private int gefällt=0;
 private double rest=0.5;
 private Modus modus=Modus.ernstfallmod;
-private String outstr="src/data/out";
+private String outstr=control.pfad.src+"src/data/out";
 
 public Modus getModus() {
 	return modus;
