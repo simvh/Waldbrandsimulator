@@ -142,4 +142,9 @@ public String toString() {
 	return "L";
 }
 
+@Override
+    public char toChar() {
+        return 'L';
+    }
+    
 }

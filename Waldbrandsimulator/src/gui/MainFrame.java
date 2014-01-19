@@ -6,10 +6,18 @@
 
 package gui;
 
+import control.Computer;
+import control.Modus;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.text.NumberFormatter;
+import wald.Helfer;
+import wald.wald;
 
 /**
  *
@@ -18,21 +26,31 @@ import javax.swing.JFileChooser;
 public class MainFrame extends javax.swing.JFrame {
 
         
-    protected File inFile = new File("src/data/wald");
-    protected File outFile = new File("src/data/out");;
+    protected File inFile=new File("src/data/demowald5");
+    protected File outFile=new File("src/data/demo5out");
     protected int helpers;
     protected int MBSaved;
     protected int mode;
+    private final GenFrame gen;
+    private final TheWood view;
+    private final NumberFormatter positive = new NumberFormatter();
 
+    protected void setIn(File file){
+        inFile=file;
+        tInput.setText(PathShortener.pathLengthShortener(inFile.getName(),27));
+    }
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
-        tInput.setText(PathShortener.pathLengthShortener(inFile.getName(),27));
-        tOutput.setText(PathShortener.pathLengthShortener(outFile.getName(),26));
+        positive.setMinimum(0);
+        gen=new GenFrame(this);
+        view=new TheWood(this);
+        helpers=Integer.parseInt(tHCount.getText());
+        MBSaved=Integer.parseInt(tMBSaved.getText());
     }
-
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,53 +61,69 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
         fileChooser = new javax.swing.JFileChooser();
-        test = new javax.swing.JDialog();
+        dReplace = new javax.swing.JDialog();
+        jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        tHCount = new javax.swing.JTextField();
-        tMBSaved = new javax.swing.JTextField();
         tInput = new javax.swing.JLabel();
         tOutput = new javax.swing.JLabel();
         bOpenIn = new javax.swing.JButton();
         bGenWood = new javax.swing.JButton();
         bOpenOut = new javax.swing.JButton();
         bShowIn = new javax.swing.JButton();
-        bShowOut = new javax.swing.JButton();
         bRun = new javax.swing.JButton();
-        bReset = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         lMode = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        tHCount = new javax.swing.JFormattedTextField(positive);
+        tMBSaved = new javax.swing.JFormattedTextField(positive);
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        mOpenIn = new javax.swing.JMenuItem();
-        mOpenOut = new javax.swing.JMenuItem();
+        mViewer = new javax.swing.JMenuItem();
         mExit = new javax.swing.JMenuItem();
-        mEdit = new javax.swing.JMenu();
-        mExtras = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         mHelp = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        mAbout = new javax.swing.JMenuItem();
 
-        jMenuItem4.setText("jMenuItem4");
+        jLabel6.setText("This file exists. Replace?");
 
-        jMenuItem7.setText("jMenuItem7");
+        jButton1.setText("Yes");
 
-        javax.swing.GroupLayout testLayout = new javax.swing.GroupLayout(test.getContentPane());
-        test.getContentPane().setLayout(testLayout);
-        testLayout.setHorizontalGroup(
-            testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        jButton2.setText("No, select another one");
+
+        jButton3.setText("Cancel");
+
+        javax.swing.GroupLayout dReplaceLayout = new javax.swing.GroupLayout(dReplace.getContentPane());
+        dReplace.getContentPane().setLayout(dReplaceLayout);
+        dReplaceLayout.setHorizontalGroup(
+            dReplaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dReplaceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dReplaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(dReplaceLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        testLayout.setVerticalGroup(
-            testLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        dReplaceLayout.setVerticalGroup(
+            dReplaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dReplaceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dReplaceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,19 +132,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Must be saved (%):");
 
-        tHCount.setText("10");
-        tHCount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tHCountActionPerformed(evt);
-            }
-        });
-
-        tMBSaved.setText("50");
-
-        tInput.setText("Input Filename");
+        tInput.setText("browse/create a file");
         tInput.setName(""); // NOI18N
 
-        tOutput.setText("Output Filename");
+        tOutput.setText("browse a file");
 
         bOpenIn.setText("Browse");
         bOpenIn.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +145,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         bGenWood.setText("Create");
+        bGenWood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGenWoodActionPerformed(evt);
+            }
+        });
 
         bOpenOut.setText("Browse");
         bOpenOut.addActionListener(new java.awt.event.ActionListener() {
@@ -129,15 +159,16 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         bShowIn.setText("Show");
-
-        bShowOut.setText("Show");
+        bShowIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bShowInActionPerformed(evt);
+            }
+        });
 
         bRun.setText("Run");
-
-        bReset.setText("Reset");
-        bReset.addActionListener(new java.awt.event.ActionListener() {
+        bRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bResetActionPerformed(evt);
+                bRunActionPerformed(evt);
             }
         });
 
@@ -154,42 +185,32 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Output:");
 
+        tHCount.setText("50");
+        tHCount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tHCountActionPerformed(evt);
+            }
+        });
+
+        tMBSaved.setText("50");
+        tMBSaved.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tMBSavedActionPerformed(evt);
+            }
+        });
+
         mFile.setText("File");
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bGenWood, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mFile, org.jdesktop.beansbinding.BeanProperty.create("selected"));
         bindingGroup.addBinding(binding);
 
-        jMenuItem1.setText("Generate Wood");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mViewer.setText("Open Viewer");
+        mViewer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mViewerActionPerformed(evt);
             }
         });
-        mFile.add(jMenuItem1);
-
-        mOpenIn.setText("Open Wood");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bOpenIn, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mOpenIn, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
-        mOpenIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mOpenInActionPerformed(evt);
-            }
-        });
-        mFile.add(mOpenIn);
-
-        mOpenOut.setText("Choose Output");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bOpenOut, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mOpenOut, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
-
-        mOpenOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mOpenOutActionPerformed(evt);
-            }
-        });
-        mFile.add(mOpenOut);
+        mFile.add(mViewer);
 
         mExit.setText("Exit");
         mExit.addActionListener(new java.awt.event.ActionListener() {
@@ -201,33 +222,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(mFile);
 
-        mEdit.setText("Edit");
-        jMenuBar1.add(mEdit);
-
-        mExtras.setText("Extras");
-
-        jMenuItem5.setText("Mode");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        mExtras.add(jMenuItem5);
-
-        jMenuItem6.setText("Helpercount");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        mExtras.add(jMenuItem6);
-
-        jMenuBar1.add(mExtras);
-
         mHelp.setText("Help");
 
-        jMenuItem8.setText("About");
-        mHelp.add(jMenuItem8);
+        mAbout.setText("About");
+        mHelp.add(mAbout);
 
         jMenuBar1.add(mHelp);
 
@@ -245,38 +243,31 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tOutput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tHCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bOpenIn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bGenWood)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bShowIn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bOpenOut)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bShowOut))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(bReset)
-                                .addGap(88, 88, 88)
-                                .addComponent(bRun)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tHCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(bOpenIn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bGenWood)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bShowIn))
+                    .addComponent(bOpenOut)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(bRun))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(tInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -296,9 +287,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(tOutput)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bOpenOut)
-                    .addComponent(bShowOut))
+                .addComponent(bOpenOut)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -312,41 +301,43 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bRun)
-                    .addComponent(bReset))
+                .addComponent(bRun)
                 .addContainerGap())
         );
+
+        tHCount.addFocusListener(new FocusListener() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                tHCountActionPerformed(e);
+            }
+
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+        });
+        tMBSaved.addFocusListener(new FocusListener() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                tMBSavedActionPerformed(e);
+            }
+
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+        });
 
         bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void tHCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tHCountActionPerformed
-        helpers=Integer.parseInt(tHCount.getText());
-        test.setTitle(Integer.toString(helpers));
-        test.show();
-    }//GEN-LAST:event_tHCountActionPerformed
-
     private void bOpenOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenOutActionPerformed
-        if (!outFile.exists()) {
-            try {
-                outFile.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (outFile==null) {
+            fileChooser.setCurrentDirectory(new File("src/data/out"));
+        } else {
+            fileChooser.setCurrentDirectory(outFile);
+            fileChooser.setSelectedFile(outFile);
         }
-        fileChooser.setCurrentDirectory(outFile);
-        fileChooser.setSelectedFile(outFile);
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             outFile = fileChooser.getSelectedFile();
@@ -356,20 +347,13 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bOpenOutActionPerformed
 
-    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bResetActionPerformed
-
     private void bOpenInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenInActionPerformed
-        if (!inFile.exists()) {
-            try {
-                inFile.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (inFile==null) {
+            fileChooser.setCurrentDirectory(new File("src/data/wald"));
+        } else {
+            fileChooser.setCurrentDirectory(inFile);
+            fileChooser.setSelectedFile(inFile);
         }
-        fileChooser.setCurrentDirectory(inFile);
-        fileChooser.setSelectedFile(inFile);
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             inFile = fileChooser.getSelectedFile();
@@ -379,26 +363,85 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bOpenInActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void lModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lModeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lModeActionPerformed
 
     private void mExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mExitActionPerformed
-        System.exit(0);
+      System.exit(0);
     }//GEN-LAST:event_mExitActionPerformed
 
-    private void mOpenInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mOpenInActionPerformed
-        bOpenInActionPerformed(evt);
-    }//GEN-LAST:event_mOpenInActionPerformed
+    private void bGenWoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenWoodActionPerformed
+      gen.setVisible(true);
+    }//GEN-LAST:event_bGenWoodActionPerformed
 
-    private void mOpenOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mOpenOutActionPerformed
-        bOpenOutActionPerformed(evt);
-    }//GEN-LAST:event_mOpenOutActionPerformed
+    private void bRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRunActionPerformed
+        if(inFile==null){
+            JOptionPane.showMessageDialog(this, "Please choose a file for input", "No input", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(outFile==null){
+            JOptionPane.showMessageDialog(this, "Please choose a file for output", "No output", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        WoodChecker check=new WoodChecker(inFile);
+        if(!check.isWood()) {
+            JOptionPane.showMessageDialog(this, "Not a Wood-File!", "Wrong file!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        view.compute(check,helpers,MBSaved,(lMode.getSelectedIndex()==0)?'e':'p',inFile,outFile);  
+        view.setVisible(true);
+    }//GEN-LAST:event_bRunActionPerformed
 
+    private void bShowInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowInActionPerformed
+        if(inFile==null) {
+            JOptionPane.showMessageDialog(this, "Nothing was selected!", "No selection", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        WoodChecker check=new WoodChecker(inFile);
+        if(!check.isWood()) {
+            JOptionPane.showMessageDialog(this, "Not a Wood-File!", "Wrong file!", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        view.setVisible(true);
+        view.show(inFile,outFile);
+    }//GEN-LAST:event_bShowInActionPerformed
+
+    private void mViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mViewerActionPerformed
+       view.setVisible(true);
+    }//GEN-LAST:event_mViewerActionPerformed
+
+    private void tHCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tHCountActionPerformed
+       if(tHCount.getText().equals("")){
+            tHCount.setText(helpers+"");
+            return;
+        }
+        helpers=Integer.parseInt(tHCount.getText());
+    }//GEN-LAST:event_tHCountActionPerformed
+
+    private void tMBSavedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tMBSavedActionPerformed
+        if(tMBSaved.getText().equals("")){
+            tMBSaved.setText(MBSaved+"");
+            return;
+        }
+        MBSaved=Integer.parseInt(tMBSaved.getText());
+    }//GEN-LAST:event_tMBSavedActionPerformed
+        
+    private void tHCountActionPerformed(FocusEvent evt) {                                        
+        if(tHCount.getText().equals("")){
+            tHCount.setText(helpers+"");
+            return;
+        }
+        helpers=Integer.parseInt(tHCount.getText());
+    }   
+    
+    private void tMBSavedActionPerformed(FocusEvent evt) {                                         
+        if(tMBSaved.getText().equals("")){
+            tMBSaved.setText(MBSaved+"");
+            return;
+        }
+        MBSaved=Integer.parseInt(tMBSaved.getText());
+    } 
     /**
      * @param args the command line arguments
      */
@@ -415,13 +458,7 @@ public class MainFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -438,36 +475,30 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bGenWood;
     private javax.swing.JButton bOpenIn;
     private javax.swing.JButton bOpenOut;
-    private javax.swing.JButton bReset;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
-    private javax.swing.JButton bShowOut;
+    private javax.swing.JDialog dReplace;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JComboBox lMode;
-    private javax.swing.JMenu mEdit;
+    private javax.swing.JMenuItem mAbout;
     private javax.swing.JMenuItem mExit;
-    private javax.swing.JMenu mExtras;
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu mHelp;
-    private javax.swing.JMenuItem mOpenIn;
-    private javax.swing.JMenuItem mOpenOut;
-    private javax.swing.JTextField tHCount;
+    private javax.swing.JMenuItem mViewer;
+    private javax.swing.JFormattedTextField tHCount;
     private javax.swing.JLabel tInput;
-    private javax.swing.JTextField tMBSaved;
+    private javax.swing.JFormattedTextField tMBSaved;
     private javax.swing.JLabel tOutput;
-    private javax.swing.JDialog test;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

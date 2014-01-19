@@ -8,6 +8,7 @@ public class Helfer {
 	private boolean fällen;
 	public static boolean brennt=false;
 	private int richtungx, richtungy; 
+        private int zielx, ziely;
 	
 	public Helfer(int x,int y){
 		this.x=x;
@@ -26,8 +27,10 @@ public class Helfer {
 		return fällen;
 	}
 	public void baumfällen(int i,int j){
+            zielx=i;
+            ziely=j;
 		if(this.fällen){
-		Helfer.wald.flaeche[this.x+i][this.y+j]=new abgeholzt(x+i,y+j);
+		Helfer.wald.flaeche[i][j]=new abgeholzt(i,j);
 		this.richtungy=0;
 		this.richtungx=0;
 		this.fällen=false;
@@ -37,8 +40,8 @@ public class Helfer {
 		}else{
 			this.bewegungsmarken--;
 			this.fällen=true;
-			this.richtungx=i;
-			this.richtungy=j;
+			this.richtungx=i-this.x;
+			this.richtungy=j-this.y;
 		}
 		
 	}

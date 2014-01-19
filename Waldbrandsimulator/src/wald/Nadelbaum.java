@@ -102,4 +102,9 @@ public String toString() {
 	return "N";
 }
 
+@Override
+    public char toChar() {
+        return 'N';
+    }
+    
 }

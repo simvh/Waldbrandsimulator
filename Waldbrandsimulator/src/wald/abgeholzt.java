@@ -11,5 +11,10 @@ public class abgeholzt extends Asche {
 	public String toString() {
 		return "a";
 	}
+        
+        @Override
+    public char toChar() {
+        return 'a';
+    }
 
 }

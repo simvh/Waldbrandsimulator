@@ -70,4 +70,9 @@ public class Asche extends Waldflaeche implements Comparable<Asche>{
 //		super.inbrannt();
 //	}
 
+    @Override
+    public char toChar() {
+        return 'A';
+    }
+
 }

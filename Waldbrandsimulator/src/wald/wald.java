@@ -15,9 +15,34 @@ public class wald {
 	 * gibt an ob der Wald noch brennt
 	 */
 	public boolean brenntnoch;
+        
+        public wald(char[][] w){
+            int i,j;
+		this.brenntnoch=false;
+		i=w.length;
+		j=w[0].length;
+		this.Bäume=i*j;
+		this.flaeche=new Waldflaeche[i][j];
+		for(int x=0;x<i;x++){
+			for(int y=0;y<j;y++){
+                                Waldflaeche.wald=this;
+				switch(w[x][y]){
+				case 'N': flaeche[x][y]= new Nadelbaum(x,y);break;
+				case 'L': flaeche[x][y]= new Laubbaum(x,y);break;
+				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
+				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
+				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
+				}
+			}
+		}
+		this.Waldbestand=this.Bäume;
+        }
+        
 	public wald(String filename) throws FileNotFoundException{
 		File f=new File(filename);
 		Scanner sc=new Scanner(f);
+                String line;
 		int i,j;
 		this.brenntnoch=false;
 		i=sc.nextInt();
@@ -26,7 +51,6 @@ public class wald {
 		this.Bäume=i*j;
 		this.flaeche=new Waldflaeche[i][j];
 		for(int x=0;x<i;x++){
-			String line;
 			line=sc.nextLine();
 			for(int y=0;y<j;y++){
 				char c;
@@ -45,6 +69,7 @@ public class wald {
 		sc.close();
 		this.Waldbestand=this.Bäume;
 	}
+        
 	public wald(wald w){
 		int i,j;
 		this.brenntnoch=w.brenntnoch;
@@ -53,13 +78,13 @@ public class wald {
 		this.flaeche=new Waldflaeche[i][j];
 		for(int x=0;x<i;x++){
 			for(int y=0;y<j;y++){
-				switch(w.flaeche[x][y].toString()){
-				case "N": flaeche[x][y]= new Nadelbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
-				case "L": flaeche[x][y]= new Laubbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
-				case "-": flaeche[x][y]= new Busch(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
-				case "B": flaeche[x][y]= new Brand(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
-				case "A": flaeche[x][y]=new Asche(x,y,0);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
-				case "a": flaeche[x][y]=new abgeholzt(x,y);break;
+				switch(w.flaeche[x][y].toChar()){
+				case 'N': flaeche[x][y]= new Nadelbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case 'L': flaeche[x][y]= new Laubbaum(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case '-': flaeche[x][y]= new Busch(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case 'B': flaeche[x][y]= new Brand(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case 'A': flaeche[x][y]=new Asche(x,y,0);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
+				case 'a': flaeche[x][y]=new abgeholzt(x,y);break;
 				}
 				}
 			}
@@ -82,6 +107,28 @@ public class wald {
 		for(int x=0;x<i;x++){
 			for(int y=0;y<j;y++){
 				Waldflaeche.wald.flaeche[x][y].st(false);
+			}
+		}
+		
+//		System.out.println("runde "+this.runde);
+//		System.out.println(this.brenntnoch);
+		
+	}
+        
+        public void runde(char[][] wood){
+		runde++;
+		int i=flaeche.length;
+		int j=flaeche[0].length;
+		this.brenntnoch=false;
+		for(int x=0;x<i;x++){
+			for(int y=0;y<j;y++){
+				Waldflaeche.wald.flaeche[x][y].st(true);
+			}
+		}
+		for(int x=0;x<i;x++){
+			for(int y=0;y<j;y++){
+				Waldflaeche.wald.flaeche[x][y].st(false);
+                                wood[x][y]=Waldflaeche.wald.flaeche[x][y].toChar();
 			}
 		}
 		

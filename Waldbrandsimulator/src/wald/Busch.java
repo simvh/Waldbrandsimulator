@@ -100,6 +100,9 @@ public class Busch extends Waldflaeche {
 public String toString() {
 	return "-";
 }
-
+@Override
+    public char toChar() {
+        return '-';
+    }
 
 }

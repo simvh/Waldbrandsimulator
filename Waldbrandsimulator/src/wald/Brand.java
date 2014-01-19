@@ -66,4 +66,8 @@ public class Brand extends Waldflaeche {
 public String toString() {
 	return "B";
 }
+@Override
+    public char toChar() {
+        return 'B';
+    }
 }

@@ -125,5 +125,6 @@ public abstract class Waldflaeche {
 //	
 //	
 //	}
+        public abstract char toChar();
 }
 	
