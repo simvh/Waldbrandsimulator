@@ -59,7 +59,7 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+//        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         fileChooser = new javax.swing.JFileChooser();
         dReplace = new javax.swing.JDialog();
@@ -201,8 +201,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         mFile.setText("File");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bGenWood, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mFile, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-        bindingGroup.addBinding(binding);
+//        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bGenWood, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mFile, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+//        bindingGroup.addBinding(binding);
 
         mViewer.setText("Open Viewer");
         mViewer.addActionListener(new java.awt.event.ActionListener() {
@@ -326,7 +326,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        bindingGroup.bind();
+//        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -499,6 +499,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel tInput;
     private javax.swing.JFormattedTextField tMBSaved;
     private javax.swing.JLabel tOutput;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+//    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

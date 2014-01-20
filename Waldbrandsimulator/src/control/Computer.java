@@ -99,6 +99,14 @@ public class Computer {
     
     public void runde(){
         wald.runde(wood);
+        if(da){
+        	try {
+				neubrennen();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
     }
 
     public void berechnen() {

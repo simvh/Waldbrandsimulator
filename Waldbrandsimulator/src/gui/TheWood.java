@@ -333,6 +333,7 @@ public class TheWood extends javax.swing.JFrame {
             draw(comp.getWood());
             bRun.setVisible(true);
             bRStep.setVisible(true);
+            comp.neubrennen();
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Some problems by accessing the input file", "Error!", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
