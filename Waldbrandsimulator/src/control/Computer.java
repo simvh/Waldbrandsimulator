@@ -71,9 +71,7 @@ public class Computer {
 
     public void prepare() {
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-        if (this.wald.Waldbestand == 0) {
-            throw (new keinWaldExeption());
-        }
+        if (this.wald.Waldbestand == 0) return;
         this.abbrennen(rest);
         Waldflaeche.wald = this.wald;
         for (int i = 0; i < this.brenn.flaeche.length; i++) {

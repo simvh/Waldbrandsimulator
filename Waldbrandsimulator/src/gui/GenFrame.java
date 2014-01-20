@@ -267,6 +267,8 @@ public class GenFrame extends javax.swing.JFrame {
 
         dNoChanges.pack();
 
+        setTitle("WoodGenerator");
+
         jLabel1.setText("Filename: ");
 
         tFilename.setText("browse a file");
@@ -482,7 +484,7 @@ public class GenFrame extends javax.swing.JFrame {
         if(fires.size()<1) return;
         int index=lFires.getSelectedIndex();
         if(index<0) {
-            JOptionPane.showMessageDialog(this, "Nothing was selected!", "No selection", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a fire source!", "No selection", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int result = JOptionPane.showConfirmDialog(this, String.format("Really remove fire (%s) ?",lFires.getSelectedValue()), "Fire remove", JOptionPane.YES_NO_OPTION);

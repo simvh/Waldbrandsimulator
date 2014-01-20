@@ -12,8 +12,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,14 +30,21 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.text.NumberFormatter;
 import wald.Helfer;
+import wald.keinWaldExeption;
 import wald.wald;
 import wald.waldgenerator;
 
@@ -70,6 +81,8 @@ public class TheWood extends javax.swing.JFrame {
     private int speed;
     private int maxSpeed;
     private final DefaultListModel<String> firesList;
+    Thread worker;
+    static Point mouseDownCompCoords;
 
     private boolean work() {
         return working;
@@ -149,6 +162,37 @@ public class TheWood extends javax.swing.JFrame {
             }
         });
         initComponents();
+        
+        processing.setUndecorated(true);
+        processing.addMouseListener(new MouseListener(){
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+            }
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+            public void mouseExited(MouseEvent e) {
+            }
+            public void mouseEntered(MouseEvent e) {
+            }
+            public void mouseClicked(MouseEvent e) {
+            }
+        });
+
+        processing.addMouseMotionListener(new MouseMotionListener(){
+            public void mouseMoved(MouseEvent e) {
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                processing.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+            }
+        });
+        
+        bar.setIndeterminate(true);  
+        bar.setStringPainted(true);   
+        bar.setString("Working..."); 
+        processing.pack();    
         tSpeed.setName("tSpeed");
         tSpeed.setInputVerifier(verifier);
         pbSpeed.setValue(speed);
@@ -190,23 +234,26 @@ public class TheWood extends javax.swing.JFrame {
             for (int c = 0; c < cols; c++) {
                 switch (wood[r][c]) {
                     case 'B':
-                        gr.drawImage(fire, r * ht, c * wd, this);
+                        gr.drawImage(fire, c * wd, r * ht, this);
                         firesList.addElement(String.format("%d, %d", r, c));
                         break;
                     case 'L':
-                        gr.drawImage(leaf, r * ht, c * wd, this);
+                        gr.drawImage(leaf, c * wd, r * ht, this);
                         break;
                     case 'N':
-                        gr.drawImage(pin, r * ht, c * wd, this);
+                        gr.drawImage(pin, c * wd, r * ht, this);
                         break;
                     case '-':
-                        gr.drawImage(bush, r * ht, c * wd, this);
+                        gr.drawImage(bush, c * wd, r * ht, this);
                         break;
                     case 'A':
-                        gr.drawImage(ash, r * ht, c * wd, this);
+                        gr.drawImage(ash, c * wd, r * ht, this);
                         break;
                     case 'a':
-                        gr.drawImage(stump, r * ht, c * wd, this);
+                        gr.drawImage(stump, c * wd, r * ht, this);
+                        break;
+                    default:
+                        gr.drawImage(ash, c * wd, r * ht, this);
                         break;
                 }
             }
@@ -228,34 +275,37 @@ public class TheWood extends javax.swing.JFrame {
             for (int c = 0; c < cols; c++) {
                 switch (wood.flaeche[r][c].toChar()) {
                     case 'B':
-                        gr.drawImage(fire, r * ht, c * wd, this);
+                        gr.drawImage(fire, c * wd, r * ht, this);
                         break;
                     case 'L':
-                        gr.drawImage(leaf, r * ht, c * wd, this);
+                        gr.drawImage(leaf, c * wd, r * ht, this);
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, r * ht, c * wd, this);
+                            gr.drawImage(fire, c * wd, r * ht, this);
                         }
                         break;
                     case 'N':
-                        gr.drawImage(pin, r * ht, c * wd, this);
+                        gr.drawImage(pin, c * wd, r * ht, this);
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, r * ht, c * wd, this);
+                            gr.drawImage(fire, c * wd, r * ht, this);
                         }
                         break;
                     case '-':
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, r * ht, c * wd, this);
+                            gr.drawImage(fire, c * wd, r * ht, this);
                         }
-                        gr.drawImage(bush, r * ht, c * wd, this);
+                        gr.drawImage(bush, c * wd, r * ht, this);
                         break;
                     case 'A':
-                        gr.drawImage(ash, r * ht, c * wd, this);
+                        gr.drawImage(ash, c * wd, r * ht, this);
                         break;
                     case 'a':
-                        gr.drawImage(stump, r * ht, c * wd, this);
+                        gr.drawImage(stump, c * wd, r * ht, this);
+                        break;
+                    default:
+                        gr.drawImage(ash, c * wd, r * ht, this);
                         break;
                 }
             }
@@ -308,7 +358,7 @@ public class TheWood extends javax.swing.JFrame {
         this.setVisible(false);
         JOptionPane.showMessageDialog(null, "The wood is to big!", "Error!", JOptionPane.WARNING_MESSAGE);
         Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, e);
-        this.dispose();
+        mainFrame.refreshView();
     }
 
     public boolean draw(char[][] wood) {
@@ -331,8 +381,21 @@ public class TheWood extends javax.swing.JFrame {
         return true;
     }
 
-    protected void compute(WoodChecker check, int helpers, int wantSave, char mode, File in, File out) {
+    protected void compute(final WoodChecker check, final int helpers, final int wantSave, final char mode, final File in, final File out) {
         inFile = in;
+        status.setText(String.format("Processing file '%s'", PathShortener.pathLengthShortener(inFile.getName(), 19))); 
+        worker = new Thread(new Runnable() {
+            public void run() {
+                computing(check, helpers, wantSave, mode, out);
+                processing.dispose();
+            }
+        });
+        processing.setVisible(true);
+        worker.start();
+    }
+    
+    protected void computing(WoodChecker check, int helpers, int wantSave, char mode, File out) {
+        processing.setVisible(true);
         outFile = out;
         inL.setText(PathShortener.pathLengthShortener(inFile.getName(), 15));
         outL.setText(PathShortener.pathLengthShortener(outFile.getName(), 15));
@@ -381,7 +444,7 @@ public class TheWood extends javax.swing.JFrame {
             draw(comp.getWood());
             bRun.setVisible(true);
             bRStep.setVisible(true);
-            comp.neubrennen();
+            this.setVisible(true);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Some problems by accessing the input file", "Error!", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -430,6 +493,9 @@ public class TheWood extends javax.swing.JFrame {
         pbSpeed = new javax.swing.JSlider();
         jScrollPane1 = new javax.swing.JScrollPane();
         lFires = new javax.swing.JList(firesList);
+        processing = new javax.swing.JDialog();
+        bar = new javax.swing.JProgressBar();
+        status = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         bBurn = new javax.swing.JButton();
@@ -463,8 +529,6 @@ public class TheWood extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         bSpeed = new javax.swing.JMenuItem();
         bFires = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu2.setText("jMenu2");
 
@@ -538,6 +602,34 @@ public class TheWood extends javax.swing.JFrame {
         wSpeed.pack();
 
         jScrollPane1.setViewportView(lFires);
+
+        processing.setResizable(false);
+
+        status.setText("...");
+        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout processingLayout = new javax.swing.GroupLayout(processing.getContentPane());
+        processing.getContentPane().setLayout(processingLayout);
+        processingLayout.setHorizontalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(processingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        processingLayout.setVerticalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(status)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        setTitle("WBSPlayer");
 
         jToolBar1.setRollover(true);
 
@@ -752,13 +844,6 @@ public class TheWood extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
-        jMenu3.setText("Help");
-
-        jMenuItem4.setText("About");
-        jMenu3.add(jMenuItem4);
-
-        jMenuBar1.add(jMenu3);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -785,12 +870,25 @@ public class TheWood extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void show(File file, File out) {
+    
+    protected void show(final File file, final File out) {
+        inFile = file;
+        status.setText(String.format("Processing file '%s'", PathShortener.pathLengthShortener(inFile.getName(), 19))); 
+        worker = new Thread(new Runnable() {
+            public void run() {
+                showing(out);
+                processing.dispose();
+            }
+        });
+        processing.setVisible(true);
+        worker.start();
+    }
+
+    protected void showing(File out) {
         if (out != null) {
             outFile = out;
             outL.setText(PathShortener.pathLengthShortener(outFile.getName(), 15));
         }
-        inFile = file;
         bRun.setVisible(false);
         bRStep.setVisible(false);
         helpL.setText(0 + "");
@@ -811,6 +909,7 @@ public class TheWood extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.setVisible(true);
         this.revalidate();
     }
 
@@ -968,7 +1067,7 @@ public class TheWood extends javax.swing.JFrame {
     private void showStates() {
         String[] options = new String[]{"OK"};
         JOptionPane.showOptionDialog(null,
-                String.format("Runde: %d\nLost trees: %f %%\nTrees felled: %d\nTrees remains: %d",
+                String.format("Round: %d\nLost trees: %f %%\nTrees felled: %d\nTrees remains: %d",
                         round, ((1 - trees) * 100), comp.getGefällt(), comp.getWald().Bäume), "Stats",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
     }
@@ -1045,6 +1144,7 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JMenuItem bSpeed;
     private javax.swing.JButton bState;
     private javax.swing.JButton bWrite;
+    private javax.swing.JProgressBar bar;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel helpL;
     private javax.swing.JLabel inL;
@@ -1060,13 +1160,11 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1077,7 +1175,9 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JLabel lRound;
     private javax.swing.JLabel outL;
     private javax.swing.JSlider pbSpeed;
+    private javax.swing.JDialog processing;
     private javax.swing.JLabel saveL;
+    private javax.swing.JLabel status;
     private javax.swing.JFormattedTextField tSpeed;
     private javax.swing.JDialog wSpeed;
     private javax.swing.JLabel xFlabel;

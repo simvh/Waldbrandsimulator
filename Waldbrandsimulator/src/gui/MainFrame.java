@@ -15,8 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 import wald.Helfer;
@@ -29,13 +31,13 @@ import wald.wald;
 public class MainFrame extends javax.swing.JFrame {
 
         
-    protected File inFile=new File("src/data/demowald5");
-    protected File outFile=new File("src/data/demo5out");
+    protected File inFile;
+    protected File outFile;
     protected int helpers;
     protected int MBSaved;
     protected int mode;
-    private final GenFrame gen;
-    private final TheWood view;
+    private GenFrame gen;
+    private TheWood view;
     private Verifier verifier;
 
     protected void setIn(File file){
@@ -48,6 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         verifier=new Verifier();
         initComponents();
+        dAbout.pack();
         tHCount.setName("tHCount");
         tMBSaved.setName("tMBSaved");
         tHCount.setInputVerifier(verifier);
@@ -74,6 +77,19 @@ public class MainFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        dAbout = new javax.swing.JDialog();
+        jButton4 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tInput = new javax.swing.JLabel();
@@ -134,7 +150,116 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton4.setText("OK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        jLabel8.setText("WoodBurningSimulator");
+
+        jLabel9.setText("Ver. 1.0.0");
+
+        jLabel10.setText("Owners: ");
+
+        jLabel12.setText("Authors: ");
+
+        jLabel13.setText("Simon von Hall");
+
+        jLabel14.setText("Alexander Diener");
+
+        jLabel15.setText("Core:");
+
+        jLabel16.setText("GUI:");
+
+        jLabel11.setText("jLabel11");
+
+        jLabel17.setText("jLabel17");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel13)))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel17)))
+                    .addComponent(jLabel10))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel8)
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel12)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel16))
+                        .addGap(51, 51, 51))))
+        );
+
+        javax.swing.GroupLayout dAboutLayout = new javax.swing.GroupLayout(dAbout.getContentPane());
+        dAbout.getContentPane().setLayout(dAboutLayout);
+        dAboutLayout.setHorizontalGroup(
+            dAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dAboutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(175, 175, 175))
+            .addGroup(dAboutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        dAboutLayout.setVerticalGroup(
+            dAboutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dAboutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("WBS");
 
         jLabel1.setText("Helpercount:");
 
@@ -222,6 +347,11 @@ public class MainFrame extends javax.swing.JFrame {
         mHelp.setText("Help");
 
         mAbout.setText("About");
+        mAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mAboutActionPerformed(evt);
+            }
+        });
         mHelp.add(mAbout);
 
         jMenuBar1.add(mHelp);
@@ -315,6 +445,10 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    protected void refreshView(){
+        view=new TheWood(this);
+    }
+    
     private void bOpenOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenOutActionPerformed
         if (outFile==null) {
             fileChooser.setCurrentDirectory(new File("src/data/out"));
@@ -354,7 +488,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void bGenWoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenWoodActionPerformed
       gen.setVisible(true);
     }//GEN-LAST:event_bGenWoodActionPerformed
-
+    
     private void bRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRunActionPerformed
         if(inFile==null){
             JOptionPane.showMessageDialog(this, "Please choose a file for input", "No input", JOptionPane.WARNING_MESSAGE);
@@ -369,13 +503,12 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Not a Wood-File!", "Wrong file!", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        view.compute(check,helpers,MBSaved,(lMode.getSelectedIndex()==0)?'e':'p',inFile,outFile);  
-        view.setVisible(true);
+        view.compute(check,helpers,MBSaved,(lMode.getSelectedIndex()==0)?'e':'p',inFile,outFile);
     }//GEN-LAST:event_bRunActionPerformed
 
     private void bShowInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bShowInActionPerformed
         if(inFile==null) {
-            JOptionPane.showMessageDialog(this, "Nothing was selected!", "No selection", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a file!", "No selection", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         WoodChecker check=new WoodChecker(inFile);
@@ -383,13 +516,20 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Not a Wood-File!", "Wrong file!", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        view.setVisible(true);
         view.show(inFile,outFile);
     }//GEN-LAST:event_bShowInActionPerformed
 
     private void mViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mViewerActionPerformed
        view.setVisible(true);
     }//GEN-LAST:event_mViewerActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        dAbout.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void mAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAboutActionPerformed
+        dAbout.setVisible(true);
+    }//GEN-LAST:event_mAboutActionPerformed
         
     private void tHCountActionPerformed(FocusEvent evt) {                                        
         if(tHCount.getText().equals("")){
@@ -468,19 +608,32 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bOpenOut;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
+    private javax.swing.JDialog dAbout;
     private javax.swing.JDialog dReplace;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox lMode;
     private javax.swing.JMenuItem mAbout;
     private javax.swing.JMenuItem mExit;

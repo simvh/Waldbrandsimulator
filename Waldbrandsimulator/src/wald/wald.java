@@ -32,7 +32,8 @@ public class wald {
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
-				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;;break;
+                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				}
 			}
 		}
@@ -62,7 +63,8 @@ public class wald {
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
-				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;;break;
+                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				}
 			}
 		}
