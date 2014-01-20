@@ -1,13 +1,9 @@
 package control;
 
-import gui.TheWood;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.util.*;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wald.*;
@@ -45,7 +41,7 @@ public class Computer {
         this.brenn = new wald(this.outstr);
         this.helfer = helfer;
         Helfer.wald = this.wald;
-        this.asche = new ArrayList<Asche>();
+        this.asche = new ArrayList<>();
         this.ziele = new Asche[helfer.length];
         this.weg = new Weg[helfer.length];
         this.wood = new char[wald.flaeche.length][wald.flaeche[0].length];
@@ -91,21 +87,18 @@ public class Computer {
         Collections.sort(this.asche);
         Collections.reverse(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) { }
         }
     }
-    
-    public void runde(){
+
+    public void runde() {
         wald.runde(wood);
-        if(da){
-        	try {
-				neubrennen();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        if (da) {
+            try {
+                neubrennen();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -133,9 +126,7 @@ public class Computer {
         Collections.reverse(this.asche);
 //	System.out.println(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) { }
         }
 //	System.out.println("Hier");
         helfersteuerung();
@@ -164,14 +155,13 @@ public class Computer {
                 helfersteuerung();
                 this.wald.runde();
                 helfersteuerung();
-                try {
                     if (da) {
-                        neubrennen();
+                        try {
+                            neubrennen();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
 
             }
         }
@@ -713,7 +703,8 @@ public class Computer {
                             try {
                                 neubrennen();
                                 preventiev(i);
-                            } catch (FileNotFoundException e) {
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
                         case ernstfallmod:
@@ -802,12 +793,12 @@ public class Computer {
     public wald getWald() {
         return wald;
     }
-    
+
     public char[][] getWood() {
         return wood;
     }
-    
-    public int getGefällt(){
+
+    public int getGefällt() {
         return gefällt;
     }
 }

@@ -106,18 +106,18 @@
         <Component class="javax.swing.JFormattedTextField" name="tFX">
           <Properties>
             <Property name="text" type="java.lang.String" value="0"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="String.format(&quot;Valide values: 0-%d&quot;,xSize)" type="code"/>
+            </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(xnf)"/>
-          </AuxValues>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="tFY">
           <Properties>
             <Property name="text" type="java.lang.String" value="0"/>
+            <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="String.format(&quot;Valide values: 0-%d&quot;,ySize)" type="code"/>
+            </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(ynf)"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -463,26 +463,14 @@
     <Component class="javax.swing.JFormattedTextField" name="tX">
       <Properties>
         <Property name="text" type="java.lang.String" value="100"/>
+        <Property name="toolTipText" type="java.lang.String" value="Valide values: 1-1000"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tXActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tX.addFocusListener(new FocusListener() {&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        tXActionPerformed(e);&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;    }&#xa;});"/>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(sizenf)"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="tY">
       <Properties>
         <Property name="text" type="java.lang.String" value="100"/>
+        <Property name="toolTipText" type="java.lang.String" value="Valide values: 1-1000"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tYActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(sizenf)"/>
-        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="tY.addFocusListener(new FocusListener() {&#xa;    @Override&#xa;    public void focusLost(FocusEvent e) {&#xa;        tYActionPerformed(e);&#xa;    }&#xa;&#xa;    @Override&#xa;    public void focusGained(FocusEvent e) {&#xa;    }&#xa;});"/>
-      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

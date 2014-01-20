@@ -13,8 +13,11 @@ import java.awt.event.FocusListener;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 import wald.Helfer;
 import wald.wald;
@@ -33,7 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
     protected int mode;
     private final GenFrame gen;
     private final TheWood view;
-    private final NumberFormatter positive = new NumberFormatter();
+    private Verifier verifier;
 
     protected void setIn(File file){
         inFile=file;
@@ -43,8 +46,12 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
+        verifier=new Verifier();
         initComponents();
-        positive.setMinimum(0);
+        tHCount.setName("tHCount");
+        tMBSaved.setName("tMBSaved");
+        tHCount.setInputVerifier(verifier);
+        tMBSaved.setInputVerifier(verifier);
         gen=new GenFrame(this);
         view=new TheWood(this);
         helpers=Integer.parseInt(tHCount.getText());
@@ -59,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-//        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         fileChooser = new javax.swing.JFileChooser();
         dReplace = new javax.swing.JDialog();
@@ -80,8 +87,9 @@ public class MainFrame extends javax.swing.JFrame {
         lMode = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tHCount = new javax.swing.JFormattedTextField(positive);
-        tMBSaved = new javax.swing.JFormattedTextField(positive);
+        tHCount = new javax.swing.JFormattedTextField();
+        tMBSaved = new javax.swing.JFormattedTextField();
+        jLabel7 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mViewer = new javax.swing.JMenuItem();
@@ -130,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Helpercount:");
 
-        jLabel2.setText("Must be saved (%):");
+        jLabel2.setText("Must be saved:");
 
         tInput.setText("browse/create a file");
         tInput.setName(""); // NOI18N
@@ -175,34 +183,23 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("Mode:");
 
         lMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Emergency", "Preventive" }));
-        lMode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lModeActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Input:");
 
         jLabel5.setText("Output:");
 
         tHCount.setText("50");
-        tHCount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tHCountActionPerformed(evt);
-            }
-        });
+        tHCount.setToolTipText("Valide values: 0-...");
 
         tMBSaved.setText("50");
-        tMBSaved.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tMBSavedActionPerformed(evt);
-            }
-        });
+        tMBSaved.setToolTipText("Valide values: 0-100");
+
+        jLabel7.setText("%");
 
         mFile.setText("File");
 
-//        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bGenWood, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mFile, org.jdesktop.beansbinding.BeanProperty.create("selected"));
-//        bindingGroup.addBinding(binding);
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, bGenWood, org.jdesktop.beansbinding.ELProperty.create("${actionCommand}"), mFile, org.jdesktop.beansbinding.BeanProperty.create("selected"));
+        bindingGroup.addBinding(binding);
 
         mViewer.setText("Open Viewer");
         mViewer.addActionListener(new java.awt.event.ActionListener() {
@@ -243,31 +240,38 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tOutput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tHCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(bOpenIn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bGenWood)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bShowIn))
-                    .addComponent(bOpenOut)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(bRun))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(bOpenIn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bGenWood)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bShowIn))
+                            .addComponent(bOpenOut)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(137, 137, 137)
+                                .addComponent(bRun))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tHCount))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -295,7 +299,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -305,28 +310,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tHCount.addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                tHCountActionPerformed(e);
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-        });
-        tMBSaved.addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                tMBSavedActionPerformed(e);
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-        });
-
-//        bindingGroup.bind();
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -362,10 +346,6 @@ public class MainFrame extends javax.swing.JFrame {
             System.out.println("File access cancelled by user.");
         }
     }//GEN-LAST:event_bOpenInActionPerformed
-
-    private void lModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lModeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lModeActionPerformed
 
     private void mExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mExitActionPerformed
       System.exit(0);
@@ -410,22 +390,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void mViewerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mViewerActionPerformed
        view.setVisible(true);
     }//GEN-LAST:event_mViewerActionPerformed
-
-    private void tHCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tHCountActionPerformed
-       if(tHCount.getText().equals("")){
-            tHCount.setText(helpers+"");
-            return;
-        }
-        helpers=Integer.parseInt(tHCount.getText());
-    }//GEN-LAST:event_tHCountActionPerformed
-
-    private void tMBSavedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tMBSavedActionPerformed
-        if(tMBSaved.getText().equals("")){
-            tMBSaved.setText(MBSaved+"");
-            return;
-        }
-        MBSaved=Integer.parseInt(tMBSaved.getText());
-    }//GEN-LAST:event_tMBSavedActionPerformed
         
     private void tHCountActionPerformed(FocusEvent evt) {                                        
         if(tHCount.getText().equals("")){
@@ -470,6 +434,33 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private class Verifier extends InputVerifier {
+        @Override
+        public boolean verify(JComponent input) {
+            int tmp;
+            JTextField text = (JTextField)input;
+            String value = text.getText().trim();
+            try {
+                tmp=Integer.parseInt(value);
+                switch(text.getName()){
+                    case "tHCount": if(tmp<0) throw new NumberFormatException();
+                        helpers=tmp; break;
+                    case "tMBSaved": if(tmp<0||tmp>100) throw new NumberFormatException();
+                        MBSaved=tmp; break;
+                    default:
+                }
+            } catch (NumberFormatException e) {
+                switch(input.getName()){
+                    case "tHCount": text.setText(helpers+""); break;
+                    case "tMBSaved": text.setText(MBSaved+""); break;
+                    default:
+                }
+               return false;
+            }
+            return true;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bGenWood;
@@ -488,6 +479,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JComboBox lMode;
     private javax.swing.JMenuItem mAbout;
@@ -499,6 +491,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel tInput;
     private javax.swing.JFormattedTextField tMBSaved;
     private javax.swing.JLabel tOutput;
-//    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,9 +10,14 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.NumberFormatter;
@@ -27,24 +32,31 @@ public class GenFrame extends javax.swing.JFrame {
     private final int maxSize = 1000;
     private MainFrame mainFrame;
     private File file;
-    private int xSize=100;
-    private int ySize=100;
+    private int xSize;
+    private int ySize;
+    private int lastFx;
+    private int lastFy;
     private ArrayList<int[]> fires;
     private File generated;
-    private final NumberFormatter xnf = new NumberFormatter();
-    private final NumberFormatter ynf = new NumberFormatter();
-    private final NumberFormatter sizenf = new NumberFormatter();
+    private final Verifier verifier;
     private final DefaultListModel<String> firesList = new DefaultListModel<>();
 
     /**
      * Creates new form GenFrame
      */
     public GenFrame() {
+        verifier=new Verifier();
+        this.ySize = 100;
+        this.xSize = 100;
         initComponents();
-        xnf.setMinimum(new Integer(0));
-        ynf.setMinimum(new Integer(0));
-        sizenf.setMinimum(new Integer(0));
-        sizenf.setMaximum(new Integer(maxSize));
+        tX.setName("tX");
+        tFX.setName("tFX");
+        tY.setName("tY");
+        tFY.setName("tFY");
+        tX.setInputVerifier(verifier);
+        tFX.setInputVerifier(verifier);
+        tY.setInputVerifier(verifier);
+        tFY.setInputVerifier(verifier);
         fires = new ArrayList<>();
         generated=null;
     }
@@ -70,8 +82,6 @@ public class GenFrame extends javax.swing.JFrame {
                 this.ySize = y;
                 tX.setText(x+"");
                 tY.setText(x+"");
-                xnf.setMaximum(new Integer(x));
-                ynf.setMaximum(new Integer(y));
                 generated=f;
                 return true;
             case JOptionPane.NO_OPTION:
@@ -99,8 +109,8 @@ public class GenFrame extends javax.swing.JFrame {
         yFlabel = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        tFX = new javax.swing.JFormattedTextField(xnf);
-        tFY = new javax.swing.JFormattedTextField(ynf);
+        tFX = new javax.swing.JFormattedTextField();
+        tFY = new javax.swing.JFormattedTextField();
         dNoChanges = new javax.swing.JDialog();
         jLabel10 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
@@ -144,8 +154,8 @@ public class GenFrame extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        tX = new javax.swing.JFormattedTextField(sizenf);
-        tY = new javax.swing.JFormattedTextField(sizenf);
+        tX = new javax.swing.JFormattedTextField();
+        tY = new javax.swing.JFormattedTextField();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -173,8 +183,10 @@ public class GenFrame extends javax.swing.JFrame {
         });
 
         tFX.setText("0");
+        tFX.setToolTipText(String.format("Valide values: 0-%d",xSize));
 
         tFY.setText("0");
+        tFY.setToolTipText(String.format("Valide values: 0-%d",ySize));
 
         javax.swing.GroupLayout wAddLayout = new javax.swing.GroupLayout(wAdd.getContentPane());
         wAdd.getContentPane().setLayout(wAddLayout);
@@ -349,28 +361,10 @@ public class GenFrame extends javax.swing.JFrame {
         });
 
         tX.setText("100");
-        tX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tXActionPerformed(evt);
-            }
-        });
+        tX.setToolTipText("Valide values: 1-1000");
 
         tY.setText("100");
-        tY.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tYActionPerformed(evt);
-            }
-        });
-        tY.addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                tYActionPerformed(e);
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-        });
+        tY.setToolTipText("Valide values: 1-1000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -445,17 +439,6 @@ public class GenFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tX.addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                tXActionPerformed(e);
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-        });
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -513,6 +496,8 @@ public class GenFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_bRemoveActionPerformed
 
     private void bAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAddActionPerformed
+        tFX.setText(0+"");
+        tFY.setText(0+"");
         xFlabel.setText(String.format("X (%d - %d)",0,xSize-1));
         yFlabel.setText(String.format("Y (%d - %d)",0,ySize-1));  
         wAdd.setVisible(true);
@@ -555,41 +540,20 @@ public class GenFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void tXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tXActionPerformed
-        if(tX.getText().equals("")){
-            tX.setText(xSize+"");
-            return;
-        }
-        xSize=Integer.parseInt(tX.getText());
-        xnf.setMaximum(new Integer(xSize-1));
-
-    }//GEN-LAST:event_tXActionPerformed
-
     private void tXActionPerformed(FocusEvent evt) {                                   
         if(tX.getText().equals("")){
             tX.setText(xSize+"");
             return;
         }
-        xSize=Integer.parseInt(tX.getText());
-        xnf.setMaximum(new Integer(xSize-1));
+        xSize=Integer.parseInt(tFX.getText());
     }
     
-    private void tYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tYActionPerformed
-        if(tY.getText().equals("")){
-            tY.setText(ySize+"");
-            return;
-        }
-        ySize=Integer.parseInt(tY.getText());
-        ynf.setMaximum(new Integer(ySize-1));
-    }//GEN-LAST:event_tYActionPerformed
-
     private void tYActionPerformed(FocusEvent evt) {                                   
         if(tY.getText().equals("")){
             tY.setText(ySize+"");
             return;
         }
-        ySize=Integer.parseInt(tY.getText());
-        ynf.setMaximum(new Integer(ySize-1));
+        ySize=Integer.parseInt(tFY.getText());
     }
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         int result;
@@ -642,6 +606,39 @@ public class GenFrame extends javax.swing.JFrame {
                 new GenFrame().setVisible(true);
             }
         });
+    }
+    
+    private class Verifier extends InputVerifier {
+        @Override
+        public boolean verify(JComponent input) {
+            int tmp;
+            JTextField text = (JTextField)input;
+            String value = text.getText().trim();
+            try {
+                tmp=Integer.parseInt(value);
+                switch(text.getName()){
+                    case "tFX": if(tmp<0||tmp>(xSize-1)) throw new NumberFormatException();
+                        lastFx=tmp; break;
+                    case "tYX": if(tmp<0||tmp>(ySize-1)) throw new NumberFormatException();
+                        lastFy=tmp; break;
+                    case "tX": if(tmp<1||tmp>maxSize) throw new NumberFormatException();
+                        xSize=tmp; break;
+                    case "tY": if(tmp<1||tmp>maxSize) throw new NumberFormatException();
+                        ySize=tmp;break;
+                    default:
+                }
+            } catch (NumberFormatException e) {
+                switch(input.getName()){
+                    case "tFX": text.setText(lastFx+""); break;
+                    case "tYX": text.setText(lastFy+""); break;
+                    case "tX": text.setText(xSize+""); break;
+                    case "tY": text.setText(ySize+"");break;
+                    default:
+                }
+               return false;
+            }
+            return true;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

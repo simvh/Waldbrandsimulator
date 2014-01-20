@@ -19,14 +19,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.text.NumberFormatter;
 import wald.Helfer;
 import wald.wald;
 import wald.waldgenerator;
@@ -60,6 +66,10 @@ public class TheWood extends javax.swing.JFrame {
     private boolean checkTrees;
     private Timer burnTimer;
     private Timer runTimer;
+    private Verifier verifier;
+    private int speed;
+    private int maxSpeed;
+    private final DefaultListModel<String> firesList;
 
     private boolean work() {
         return working;
@@ -95,7 +105,11 @@ public class TheWood extends javax.swing.JFrame {
      * Creates new form ShowTheWood
      */
     public TheWood() {
-        this.runTimer = new Timer(100, new ActionListener() {
+        firesList = new DefaultListModel<>();
+        verifier = new Verifier();
+        maxSpeed = 1000;
+        speed = 100;
+        this.runTimer = new Timer(speed, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 comp.helfersteuerung();
@@ -122,7 +136,7 @@ public class TheWood extends javax.swing.JFrame {
                 }
             }
         });
-        this.burnTimer = new Timer(100, new ActionListener() {
+        this.burnTimer = new Timer(speed, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 comp.runde();
@@ -135,6 +149,11 @@ public class TheWood extends javax.swing.JFrame {
             }
         });
         initComponents();
+        tSpeed.setName("tSpeed");
+        tSpeed.setInputVerifier(verifier);
+        pbSpeed.setValue(speed);
+        pbSpeed.setMinimum(1);
+        pbSpeed.setMaximum(maxSpeed);
         bRun.setVisible(false);
         bRStep.setVisible(false);
         jToolBar1.setVisible(false);
@@ -159,6 +178,7 @@ public class TheWood extends javax.swing.JFrame {
     }
 
     private void createImg(char[][] wood) {
+        firesList.clear();
         int ht = 20, wd = 20;
         int rows = wood.length;
         int cols = wood[0].length;
@@ -171,6 +191,7 @@ public class TheWood extends javax.swing.JFrame {
                 switch (wood[r][c]) {
                     case 'B':
                         gr.drawImage(fire, r * ht, c * wd, this);
+                        firesList.addElement(String.format("%d, %d", r, c));
                         break;
                     case 'L':
                         gr.drawImage(leaf, r * ht, c * wd, this);
@@ -198,7 +219,7 @@ public class TheWood extends javax.swing.JFrame {
         int ht = 20, wd = 20;
         int rows = wood.flaeche.length;
         int cols = wood.flaeche[0].length;
-        Graphics gr;
+        Graphics gr = null;
         // create the offscreen buffer and associated Graphics
         image = new BufferedImage(wd * cols, ht * rows, BufferedImage.TYPE_4BYTE_ABGR);
         gr = image.getGraphics();
@@ -255,12 +276,20 @@ public class TheWood extends javax.swing.JFrame {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawImage(image, 0, 0, null);
+            try {
+                g2d.drawImage(image, 0, 0, null);
+            } catch (OutOfMemoryError e) {
+                toBig(e);
+            }
         }
     }
 
     private boolean draw() {
-        createImg();
+        try {
+            createImg();
+        } catch (OutOfMemoryError e) {
+            toBig(e);
+        }
         if (woodScroll == null) {
             jToolBar1.setVisible(true);
             woodPanel = new W();
@@ -274,19 +303,28 @@ public class TheWood extends javax.swing.JFrame {
         }
         return true;
     }
+    
+    private void toBig(OutOfMemoryError e){
+        this.setVisible(false);
+        JOptionPane.showMessageDialog(null, "The wood is to big!", "Error!", JOptionPane.WARNING_MESSAGE);
+        Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, e);
+        this.dispose();
+    }
 
     public boolean draw(char[][] wood) {
-        createImg(wood);
+        try {
+            createImg(wood);
+        } catch (OutOfMemoryError e) {
+            toBig(e);
+        }
         if (woodScroll == null) {
             jToolBar1.setVisible(true);
-            System.out.print("here!");
             woodPanel = new W();
             woodPanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
             woodScroll = new javax.swing.JScrollPane(woodPanel);
             jPanel2.setLayout(new BorderLayout());
             jPanel2.add(woodScroll, BorderLayout.CENTER);
         } else {
-            System.out.print("there!");
             woodPanel.updateUI();
             woodScroll.updateUI();
         }
@@ -329,6 +367,16 @@ public class TheWood extends javax.swing.JFrame {
 
             computer.prepare();
             comp = computer;
+            switch (mode) {
+                case 'p':
+                    comp.setModus(Modus.preventievmod);
+                    break;
+                case 'e':
+                    comp.setModus(Modus.ernstfallmod);
+                    break;
+                default:
+                    break;
+            }
             comp.runde();
             draw(comp.getWood());
             bRun.setVisible(true);
@@ -353,6 +401,7 @@ public class TheWood extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         fileChooser = new javax.swing.JFileChooser(){
             @Override
@@ -372,6 +421,15 @@ public class TheWood extends javax.swing.JFrame {
         };
         ;
         jMenu2 = new javax.swing.JMenu();
+        wSpeed = new javax.swing.JDialog();
+        xFlabel = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        tSpeed = new javax.swing.JFormattedTextField();
+        jLabel8 = new javax.swing.JLabel();
+        pbSpeed = new javax.swing.JSlider();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lFires = new javax.swing.JList(firesList);
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         bBurn = new javax.swing.JButton();
@@ -402,10 +460,84 @@ public class TheWood extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        bSpeed = new javax.swing.JMenuItem();
+        bFires = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu2.setText("jMenu2");
+
+        wSpeed.setTitle("Add new fire");
+        wSpeed.setResizable(false);
+
+        xFlabel.setText("Speed:");
+
+        jButton5.setText("OK");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Cancel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        tSpeed.setToolTipText("Valide values: 1-1000");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, pbSpeed, org.jdesktop.beansbinding.ELProperty.create("${value}"), tSpeed, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
+        jLabel8.setText("ms (1-1000)");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tSpeed, org.jdesktop.beansbinding.ELProperty.create("${value}"), pbSpeed, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        bindingGroup.addBinding(binding);
+
+        javax.swing.GroupLayout wSpeedLayout = new javax.swing.GroupLayout(wSpeed.getContentPane());
+        wSpeed.getContentPane().setLayout(wSpeedLayout);
+        wSpeedLayout.setHorizontalGroup(
+            wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wSpeedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pbSpeed, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                    .addGroup(wSpeedLayout.createSequentialGroup()
+                        .addComponent(xFlabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(tSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(wSpeedLayout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)))
+                .addContainerGap())
+        );
+        wSpeedLayout.setVerticalGroup(
+            wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wSpeedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(xFlabel)
+                    .addComponent(tSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pbSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        wSpeed.pack();
+
+        jScrollPane1.setViewportView(lFires);
 
         jToolBar1.setRollover(true);
 
@@ -600,6 +732,26 @@ public class TheWood extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu4.setText("Extras");
+
+        bSpeed.setText("Change animation speed");
+        bSpeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSpeedActionPerformed(evt);
+            }
+        });
+        jMenu4.add(bSpeed);
+
+        bFires.setText("List positions of fire sources");
+        bFires.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bFiresActionPerformed(evt);
+            }
+        });
+        jMenu4.add(bFires);
+
+        jMenuBar1.add(jMenu4);
+
         jMenu3.setText("Help");
 
         jMenuItem4.setText("About");
@@ -627,6 +779,8 @@ public class TheWood extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -770,6 +924,31 @@ public class TheWood extends javax.swing.JFrame {
         showStates();
     }//GEN-LAST:event_bStateActionPerformed
 
+    private boolean setSpeed(int pSpeed) {
+        runTimer.setDelay(speed);
+        burnTimer.setDelay(speed);
+        speed = pSpeed;
+        return true;
+    }
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (setSpeed((int) tSpeed.getValue())) {
+            wSpeed.setVisible(false);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        wSpeed.setVisible(false);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void bSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSpeedActionPerformed
+        wSpeed.setVisible(true);
+    }//GEN-LAST:event_bSpeedActionPerformed
+
+    private void bFiresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFiresActionPerformed
+        JOptionPane.showMessageDialog(this, lFires, "Fire sources", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_bFiresActionPerformed
+
     private void finish() {
         String[] options = new String[]{"OK", "Write Wood to the output"};
         int result = JOptionPane.showOptionDialog(null,
@@ -823,19 +1002,54 @@ public class TheWood extends javax.swing.JFrame {
         });
     }
 
+    private class Verifier extends InputVerifier {
+
+        @Override
+        public boolean verify(JComponent input) {
+            int tmp;
+            JTextField text = (JTextField) input;
+            String value = text.getText().trim();
+            try {
+                tmp = Integer.parseInt(value);
+                switch (text.getName()) {
+                    case "tSpeed":
+                        if (tmp < 1 || tmp > maxSpeed) {
+                            throw new NumberFormatException();
+                        }
+                        speed = tmp;
+                        break;
+                    default:
+                }
+            } catch (NumberFormatException e) {
+                switch (input.getName()) {
+                    case "tSpeed":
+                        text.setText(speed + "");
+                        break;
+                    default:
+                }
+                return false;
+            }
+            return true;
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBStep;
     private javax.swing.JButton bBurn;
+    private javax.swing.JMenuItem bFires;
     private javax.swing.JButton bPause;
     private javax.swing.JButton bRStep;
     private javax.swing.JButton bReset;
     private javax.swing.JButton bRun;
+    private javax.swing.JMenuItem bSpeed;
     private javax.swing.JButton bState;
     private javax.swing.JButton bWrite;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel helpL;
     private javax.swing.JLabel inL;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -843,9 +1057,11 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -853,11 +1069,18 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JList lFires;
     private javax.swing.JLabel lMode;
     private javax.swing.JLabel lRound;
     private javax.swing.JLabel outL;
+    private javax.swing.JSlider pbSpeed;
     private javax.swing.JLabel saveL;
+    private javax.swing.JFormattedTextField tSpeed;
+    private javax.swing.JDialog wSpeed;
+    private javax.swing.JLabel xFlabel;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

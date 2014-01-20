@@ -14,7 +14,6 @@ public class waldgenerator {
     }
 
     public static boolean create(int n, int m, ArrayList<int[]> fires, File output) {
-        if(fires==null) return false;
         int tmp;
         char wald[][] = new char[n][m];
         for (int x = 0; x < n; x++) {
