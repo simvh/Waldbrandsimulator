@@ -6,6 +6,8 @@ import wald.Helfer;
 import wald.wald;
 import control.Computer;
 import control.Modus;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class demo2 {
 
@@ -31,7 +33,7 @@ public class demo2 {
 			computer.berechnen();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
 		}
 	}
 

@@ -220,6 +220,20 @@ public class TheWood extends javax.swing.JFrame {
             Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(1);
         }
+        /*try {
+            ash = ImageIO.read(new FileInputStream("bilder/Asche.png"));
+            pin = ImageIO.read(new FileInputStream("bilder/nadelbaum.png"));
+            leaf = ImageIO.read(new FileInputStream("bilder/laubbaum.png"));
+            bush = ImageIO.read(new FileInputStream("bilder/roehricht.png"));
+            fire = ImageIO.read(new FileInputStream("bilder/Feuer.png"));
+            stump = ImageIO.read(new FileInputStream("bilder/Baumstumpf.png"));
+            man = ImageIO.read(new FileInputStream("bilder/helfer.png"));
+            axe = ImageIO.read(new FileInputStream("bilder/Axe.png"));
+        } catch (IllegalArgumentException|IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error by opening images!\nPlease reload the programm.", "Error!", JOptionPane.WARNING_MESSAGE);
+            Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
+        }*/
     }
 
     public TheWood(MainFrame main) {
@@ -958,6 +972,7 @@ public class TheWood extends javax.swing.JFrame {
             switch (result) {
                 case JOptionPane.YES_OPTION:
                     working = false;
+                    runTimer.stop();
                     isRunning = false;
                     break;
                 case JOptionPane.NO_OPTION:
@@ -980,12 +995,12 @@ public class TheWood extends javax.swing.JFrame {
         working = false;
         round = 0;
         lRound.setText(round + "");
-        if (isBurning) {
+        if (isRunning) {
             compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
                     Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
-            isBurning=false;
-        } else if (isRunning){
             isRunning=false;
+        } else if (isBurning){
+            isBurning=false;
             WoodChecker check = new WoodChecker(inFile);
             wald wood = new wald(check.wood);
             Computer computer;
@@ -1011,7 +1026,11 @@ public class TheWood extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             switch (result) {
                 case JOptionPane.YES_OPTION:
-                    reset();
+                    isBurning=false;
+                    working = false;
+                    burnTimer.stop();
+                    compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
+                    Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
                     break;
                 case JOptionPane.NO_OPTION:
                     return;
@@ -1031,6 +1050,7 @@ public class TheWood extends javax.swing.JFrame {
             switch (result) {
                 case JOptionPane.YES_OPTION:
                     working = false;
+                    runTimer.stop();
                     isRunning = false;
                     break;
                 case JOptionPane.NO_OPTION:
@@ -1050,7 +1070,11 @@ public class TheWood extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             switch (result) {
                 case JOptionPane.YES_OPTION:
-                    reset();
+                    isBurning=false;
+                    working = false;
+                    burnTimer.stop();
+                    compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
+                    Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
                     break;
                 case JOptionPane.NO_OPTION:
                     return;

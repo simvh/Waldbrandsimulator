@@ -1,6 +1,7 @@
 package control;
 
 import gui.TheWood;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Computer {
     private int gefällt = 0;
     private double rest = 0.5;
     private Modus modus = Modus.ernstfallmod;
-    private String outstr = control.pfad.src + "data/out";
+    private String outstr = control.pfad.src + "../out";
     private char[][] wood;
 
     public Modus getModus() {
@@ -75,7 +76,9 @@ public class Computer {
 
     public void prepare() {
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-        if (this.wald.Waldbestand == 0) return;
+        if (this.wald.Waldbestand == 0) {
+            return;
+        }
         this.abbrennen(rest);
         Waldflaeche.wald = this.wald;
         for (int i = 0; i < this.brenn.flaeche.length; i++) {
@@ -89,18 +92,19 @@ public class Computer {
         Collections.sort(this.asche);
         Collections.reverse(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {}
+            if (!zielermitteln(i)) {
+            }
         }
     }
-    
-    public void runde(){
+
+    public void runde() {
         wald.runde(wood);
-        if(da){
-        	try {
-				neubrennen();
-			} catch (FileNotFoundException e) {
-				Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
-			}
+        if (da) {
+            try {
+                neubrennen();
+            } catch (FileNotFoundException e) {
+                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
     }
 
@@ -128,7 +132,8 @@ public class Computer {
         Collections.reverse(this.asche);
 //	System.out.println(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {}
+            if (!zielermitteln(i)) {
+            }
         }
 //	System.out.println("Hier");
         helfersteuerung();
@@ -729,7 +734,7 @@ public class Computer {
      out = new FileWriter("out",false);
      } catch (IOException e) {
      // TODO Auto-generated catch block
-     e.printStackTrace();
+     Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
      }
      int i;try{
      out.append(""+wa.flaeche.length+" "+wa.flaeche[0].length+"\n");
@@ -740,26 +745,24 @@ public class Computer {
      }
 	
      }catch (IOException e){
-     e.printStackTrace();
+     Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
      }
      try {
      out.close();
      } catch (IOException e) {
      // TODO Auto-generated catch block
-     e.printStackTrace();
+     Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
      }
 
      }*/
     private void out(wald wa, String str) {
-        // TODO Auto-generated method stub
+        File outFile = new File(str);
         FileWriter out = null;
         try {
-            out = new FileWriter(str, false);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        try {
+            if (!outFile.exists()) {
+                outFile.createNewFile();
+            }
+            out = new FileWriter(outFile, false);
             out.append("" + wa.flaeche.length + " " + wa.flaeche[0].length + "\n");
             for (int x = 0; x < wa.flaeche.length; x++) {
                 for (int y = 0; y < wa.flaeche[0].length; y++) {
@@ -767,15 +770,9 @@ public class Computer {
                 }
                 out.append('\n');
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             out.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }
@@ -795,12 +792,12 @@ public class Computer {
     public wald getWald() {
         return wald;
     }
-    
+
     public char[][] getWood() {
         return wood;
     }
-    
-    public int getGefällt(){
+
+    public int getGefällt() {
         return gefällt;
     }
 }

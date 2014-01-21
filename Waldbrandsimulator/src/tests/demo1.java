@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 
 import wald.*;
 import control.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class demo1 {
 
@@ -29,7 +31,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         h = 12;
         helfer = new Helfer[h * 4];
@@ -48,7 +50,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -65,7 +67,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -82,7 +84,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -99,7 +101,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -116,7 +118,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -133,7 +135,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
         for (int i = 0; i < h; i++) {
             helfer[i * 4 + 0] = new Helfer(50, 0);
@@ -150,7 +152,7 @@ public class demo1 {
             computer.berechnen();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
         }
 //		h=500;helfer=new Helfer[h*4];
 //		for(int i=0;i<h;i++){
@@ -168,7 +170,7 @@ public class demo1 {
 //			computer.berechnen();
 //		} catch (FileNotFoundException e) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
 //		}
 
     }
@@ -188,6 +190,6 @@ public class demo1 {
 //		computer.berechnen();
 //	} catch (FileNotFoundException e) {
 //		// TODO Auto-generated catch block
-//		e.printStackTrace();
+//		Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
 //	}
 }
