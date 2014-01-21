@@ -83,8 +83,9 @@ public class TheWood extends javax.swing.JFrame {
     private final DefaultListModel<String> firesList;
     private boolean isRunning=false;
     private boolean isBurning=false;
-    Thread worker;
-    static Point mouseDownCompCoords;
+    private Thread worker;
+    private static Point mouseDownCompCoords;
+    private boolean prevent;
 
     private boolean work() {
         return working;
@@ -131,7 +132,7 @@ public class TheWood extends javax.swing.JFrame {
                 comp.runde();
                 nextRound();
                 draw();
-                if (!enoughTrees()) {
+                if (!prevent&&!enoughTrees()) {
                     int result = JOptionPane.showConfirmDialog(null, "The limit your need can't be saved!\nResume?", "Limit exceeded!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                     switch (result) {
                         case JOptionPane.YES_OPTION:
@@ -433,8 +434,10 @@ public class TheWood extends javax.swing.JFrame {
             Computer computer = new Computer(wood, helfer);
             computer.setOutstr(out.getAbsolutePath());
             if(mode=='e'){
-            computer.setModus(Modus.ernstfallmod);
+                prevent=false;
+                computer.setModus(Modus.ernstfallmod);
             }else{
+                prevent=true;
             	computer.setModus(Modus.preventievmod);
             }
             computer.prepare();
