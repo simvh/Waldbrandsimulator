@@ -312,7 +312,7 @@ public class TheWood extends javax.swing.JFrame {
                 }
             }
         }
-        if (!onfire && round > 2) {
+        if (!onfire && round > 3) {
             working = false;
             finish();
         } else {
