@@ -946,6 +946,7 @@ public class TheWood extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             switch (result) {
                 case JOptionPane.YES_OPTION:
+                    working = false;
                     isRunning = false;
                     break;
                 case JOptionPane.NO_OPTION:
@@ -968,11 +969,12 @@ public class TheWood extends javax.swing.JFrame {
         working = false;
         round = 0;
         lRound.setText(round + "");
-        if (isRunning) {
+        if (isBurning) {
             compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
                     Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
+            isBurning=false;
+        } else if (isRunning){
             isRunning=false;
-        } else if (isBurning){
             WoodChecker check = new WoodChecker(inFile);
             wald wood = new wald(check.wood);
             Computer computer;
@@ -986,7 +988,6 @@ public class TheWood extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Problems by accessing the output file!\nPlease restart WBS!", "Error!", JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
             }
-            isBurning=false;
         }
     }
     
@@ -1018,6 +1019,7 @@ public class TheWood extends javax.swing.JFrame {
             int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             switch (result) {
                 case JOptionPane.YES_OPTION:
+                    working = false;
                     isRunning = false;
                     break;
                 case JOptionPane.NO_OPTION:
