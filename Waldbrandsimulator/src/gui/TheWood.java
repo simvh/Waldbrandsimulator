@@ -81,6 +81,8 @@ public class TheWood extends javax.swing.JFrame {
     private int speed;
     private int maxSpeed;
     private final DefaultListModel<String> firesList;
+    private boolean isRunning=false;
+    private boolean isBurning=false;
     Thread worker;
     static Point mouseDownCompCoords;
 
@@ -934,6 +936,19 @@ public class TheWood extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void bBStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBStepActionPerformed
+        if (isRunning) {
+            int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    isRunning = false;
+                    break;
+                case JOptionPane.NO_OPTION:
+                    return;
+                case JOptionPane.CLOSED_OPTION:
+                    return;
+            }
+        }
+        isBurning=true;
         comp.runde();
         nextRound();
         draw();
@@ -943,14 +958,15 @@ public class TheWood extends javax.swing.JFrame {
         working = false;
     }//GEN-LAST:event_bPauseActionPerformed
 
-    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
+    private void reset(){
         working = false;
         round = 0;
         lRound.setText(round + "");
-        if (bRun.isVisible()) {
+        if (isRunning) {
             compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
                     Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
-        } else {
+            isRunning=false;
+        } else if (isBurning){
             WoodChecker check = new WoodChecker(inFile);
             wald wood = new wald(check.wood);
             Computer computer;
@@ -961,24 +977,69 @@ public class TheWood extends javax.swing.JFrame {
                 comp = computer;
                 draw(check.wood);
             } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(this, "Problems by accessing the output file!\nPlease restart WBS!", "Error!", JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
             }
+            isBurning=false;
         }
+    }
+    
+    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
+        reset();
     }//GEN-LAST:event_bResetActionPerformed
 
     private void bRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRunActionPerformed
+        if(isBurning){
+            int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    reset();
+                    break;
+                case JOptionPane.NO_OPTION:
+                    return;
+                case JOptionPane.CLOSED_OPTION:
+                    return;
+            }
+        }
+        isRunning=true;
         working = true;
         checkTrees = true;
         runTimer.start();
     }//GEN-LAST:event_bRunActionPerformed
 
     private void bBurnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBurnActionPerformed
+        if(isRunning){
+            int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    isRunning = false;
+                    break;
+                case JOptionPane.NO_OPTION:
+                    return;
+                case JOptionPane.CLOSED_OPTION:
+                    return;
+            }
+        }
+        isBurning=true;
         working = true;
         checkTrees = false;
         burnTimer.start();
     }//GEN-LAST:event_bBurnActionPerformed
 
     private void bRStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRStepActionPerformed
+         if(isBurning){
+            int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            switch (result) {
+                case JOptionPane.YES_OPTION:
+                    reset();
+                    break;
+                case JOptionPane.NO_OPTION:
+                    return;
+                case JOptionPane.CLOSED_OPTION:
+                    return;
+            }
+        }
+        isRunning=true;
         comp.helfersteuerung();
         comp.runde();
         nextRound();
