@@ -23,7 +23,7 @@ public class Computer {
     private int gefällt = 0;
     private double rest = 0.5;
     private Modus modus = Modus.ernstfallmod;
-    private String outstr = control.pfad.src + "src/data/out";
+    private String outstr = control.pfad.src + "data/out";
     private char[][] wood;
 
     public Modus getModus() {
@@ -66,10 +66,10 @@ public class Computer {
         this.brenn.runde();
         this.brenn.runde();
 //	this.brenn.end();
-//	this.out(this.brenn,"src/data/out");
+//	this.out(this.brenn,"data/out");
 //	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
 //	this.brenn.end();
-//	this.out(this.brenn,"./Waldbrandsimulator/src/data/out");
+//	this.out(this.brenn,"./Waldbrandsimulator/data/out");
 //	System.out.println((this.brenn.Bäume/(double)(this.brenn.Waldbestand)));
     }
 

@@ -536,7 +536,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void bOpenOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenOutActionPerformed
         if (outFile==null) {
-            fileChooser.setCurrentDirectory(new File("src/data/out"));
+            fileChooser.setCurrentDirectory(new File("data/out"));
         } else {
             fileChooser.setCurrentDirectory(outFile);
             fileChooser.setSelectedFile(outFile);
@@ -552,7 +552,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void bOpenInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenInActionPerformed
         if (inFile==null) {
-            fileChooser.setCurrentDirectory(new File("src/data/wald"));
+            fileChooser.setCurrentDirectory(new File("data/wald"));
         } else {
             fileChooser.setCurrentDirectory(inFile);
             fileChooser.setSelectedFile(inFile);

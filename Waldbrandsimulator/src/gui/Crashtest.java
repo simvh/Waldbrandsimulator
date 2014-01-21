@@ -32,7 +32,7 @@ public class Crashtest {
     private JLabel status;
     private ArrayList<Boolean> results;
     private JPanel resPanel;
-    private JList resList;
+    private JList<String> resList;
     private DefaultListModel<String> res;
     private int step=100;
     
@@ -41,14 +41,14 @@ public class Crashtest {
     }
     
     protected void prepare(){
-        tmp=new File("src/data/tmp");
-        tmpOut=new File("src/data/tmpOut");
+        tmp=new File("data/tmp");
+        tmpOut=new File("data/tmpOut");
         fires=new ArrayList<>();
         fires.add(new int[]{0,0});
         results=new ArrayList<>();
-        res=new DefaultListModel<>();
         resPanel=new JPanel();
-        resList=new JList(res);
+        res=new DefaultListModel<>();
+        resList=new JList<>(res);
         resPanel.add(resList);
     }
             

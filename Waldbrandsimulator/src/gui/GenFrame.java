@@ -530,7 +530,7 @@ public class GenFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (file == null) {
-            fileChooser.setCurrentDirectory(new File("src/data/wald"));
+            fileChooser.setCurrentDirectory(new File("data/wald"));
         } else {
             fileChooser.setCurrentDirectory(file);
             fileChooser.setSelectedFile(file);

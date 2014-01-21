@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,17 +207,18 @@ public class TheWood extends javax.swing.JFrame {
         bRStep.setVisible(false);
         jToolBar1.setVisible(false);
         try {
-            ash = ImageIO.read(new FileInputStream("bilder/Asche.png"));
-            pin = ImageIO.read(new FileInputStream("bilder/nadelbaum.png"));
-            leaf = ImageIO.read(new FileInputStream("bilder/laubbaum.png"));
-            bush = ImageIO.read(new FileInputStream("bilder/roehricht.png"));
-            fire = ImageIO.read(new FileInputStream("bilder/Feuer.png"));
-            stump = ImageIO.read(new FileInputStream("bilder/Baumstumpf.png"));
-            man = ImageIO.read(new FileInputStream("bilder/helfer.png"));
-            axe = ImageIO.read(new FileInputStream("bilder/axe.png"));
-        } catch (IOException ex) {
+            ash = ImageIO.read(getClass().getResource("/Asche.png"));
+            pin = ImageIO.read(getClass().getResource("/nadelbaum.png"));
+            leaf = ImageIO.read(getClass().getResource("/laubbaum.png"));
+            bush = ImageIO.read(getClass().getResource("/roehricht.png"));
+            fire = ImageIO.read(getClass().getResource("/Feuer.png"));
+            stump = ImageIO.read(getClass().getResource("/Baumstumpf.png"));
+            man = ImageIO.read(getClass().getResource("/helfer.png"));
+            axe = ImageIO.read(getClass().getResource("/Axe.png"));
+        } catch (IllegalArgumentException|IOException ex) {
             JOptionPane.showMessageDialog(null, "Error by opening images!\nPlease reload the programm.", "Error!", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(1);
         }
     }
 
@@ -932,7 +934,7 @@ public class TheWood extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         read=false;
         if (inFile == null) {
-            fileChooser.setCurrentDirectory(new File("src/data/wald"));
+            fileChooser.setCurrentDirectory(new File("data/wald"));
         } else {
             fileChooser.setCurrentDirectory(inFile);
             fileChooser.setSelectedFile(inFile);
@@ -1066,7 +1068,7 @@ public class TheWood extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         read=true;
         if (outFile == null) {
-            fileChooser.setCurrentDirectory(new File("src/data/out"));
+            fileChooser.setCurrentDirectory(new File("data/out"));
         } else {
             fileChooser.setCurrentDirectory(outFile);
             fileChooser.setSelectedFile(outFile);

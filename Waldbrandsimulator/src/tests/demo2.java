@@ -23,9 +23,9 @@ public class demo2 {
 		helfer[i*4+3]=new Helfer(999,500);
 		}
 		try {
-			wald Wald=new wald(control.pfad.src+"src/data/demowald2");
+			wald Wald=new wald(control.pfad.src+"data/demowald2");
 			Computer computer=new Computer(Wald,helfer);
-			computer.setOutstr(control.pfad.src+"src/data/demo2out");
+			computer.setOutstr(control.pfad.src+"data/demo2out");
 			computer.setModus(Modus.preventievmod);
 			computer.setModus(Modus.ernstfallmod);
 			computer.berechnen();
