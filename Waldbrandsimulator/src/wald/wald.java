@@ -26,7 +26,7 @@ public class wald {
 		for(int x=0;x<i;x++){
 			for(int y=0;y<j;y++){
                                 Waldflaeche.wald=this;
-				switch(w[x][y]){
+				switch(w[y][x]){
 				case 'N': flaeche[x][y]= new Nadelbaum(x,y);break;
 				case 'L': flaeche[x][y]= new Laubbaum(x,y);break;
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
