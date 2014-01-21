@@ -136,10 +136,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        processing = new javax.swing.JDialog();
-        bar = new javax.swing.JProgressBar();
-        status = new javax.swing.JLabel();
-        stopTest = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tInput = new javax.swing.JLabel();
@@ -159,7 +155,6 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mViewer = new javax.swing.JMenuItem();
-        bTest = new javax.swing.JMenuItem();
         mExit = new javax.swing.JMenuItem();
         mHelp = new javax.swing.JMenu();
         mAbout = new javax.swing.JMenuItem();
@@ -225,9 +220,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel16.setText("GUI:");
 
-        jLabel11.setText("jLabel11");
+        jLabel11.setText("Phillip Klinkhammer");
 
-        jLabel17.setText("jLabel17");
+        jLabel17.setText("Florian Krüger ‎");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -309,40 +304,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        processing.setResizable(false);
-
-        status.setText("...");
-        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        stopTest.setText("Stop after current test");
-
-        javax.swing.GroupLayout processingLayout = new javax.swing.GroupLayout(processing.getContentPane());
-        processing.getContentPane().setLayout(processingLayout);
-        processingLayout.setHorizontalGroup(
-            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(processingLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                    .addComponent(bar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(processingLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(stopTest)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        processingLayout.setVerticalGroup(
-            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(status)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(stopTest)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WBS");
 
@@ -418,14 +379,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mFile.add(mViewer);
-
-        bTest.setText("Test your System");
-        bTest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bTestActionPerformed(evt);
-            }
-        });
-        mFile.add(bTest);
 
         mExit.setText("Exit");
         mExit.addActionListener(new java.awt.event.ActionListener() {
@@ -730,8 +683,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bOpenOut;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
-    private javax.swing.JMenuItem bTest;
-    private javax.swing.JProgressBar bar;
     private javax.swing.JDialog dAbout;
     private javax.swing.JDialog dReplace;
     private javax.swing.JFileChooser fileChooser;
@@ -764,9 +715,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu mHelp;
     private javax.swing.JMenuItem mViewer;
-    private javax.swing.JDialog processing;
-    private javax.swing.JLabel status;
-    private javax.swing.JButton stopTest;
     private javax.swing.JFormattedTextField tHCount;
     private javax.swing.JLabel tInput;
     private javax.swing.JFormattedTextField tMBSaved;
