@@ -26,14 +26,13 @@ public class wald {
 		for(int x=0;x<i;x++){
 			for(int y=0;y<j;y++){
                                 Waldflaeche.wald=this;
-				switch(w[x][y]){
+				switch(w[y][x]){
 				case 'N': flaeche[x][y]= new Nadelbaum(x,y);break;
 				case 'L': flaeche[x][y]= new Laubbaum(x,y);break;
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
-				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;;break;
-                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
 				}
 			}
 		}
@@ -63,8 +62,7 @@ public class wald {
 				case '-': flaeche[x][y]= new Busch(x,y);this.Bäume--;break;
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
-				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;;break;
-                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
+				case'a': flaeche[x][y]=new abgeholzt(x,y);break;
 				}
 			}
 		}

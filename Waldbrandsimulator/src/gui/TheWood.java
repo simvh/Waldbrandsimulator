@@ -12,39 +12,22 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.InputVerifier;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
-import javax.swing.text.NumberFormatter;
 import wald.Helfer;
-import wald.keinWaldExeption;
 import wald.wald;
 import wald.waldgenerator;
 
@@ -77,14 +60,6 @@ public class TheWood extends javax.swing.JFrame {
     private boolean checkTrees;
     private Timer burnTimer;
     private Timer runTimer;
-    private Verifier verifier;
-    private int speed;
-    private int maxSpeed;
-    private final DefaultListModel<String> firesList;
-    private boolean isRunning=false;
-    private boolean isBurning=false;
-    Thread worker;
-    static Point mouseDownCompCoords;
 
     private boolean work() {
         return working;
@@ -120,11 +95,7 @@ public class TheWood extends javax.swing.JFrame {
      * Creates new form ShowTheWood
      */
     public TheWood() {
-        firesList = new DefaultListModel<>();
-        verifier = new Verifier();
-        maxSpeed = 1000;
-        speed = 100;
-        this.runTimer = new Timer(speed, new ActionListener() {
+        this.runTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 comp.helfersteuerung();
@@ -151,7 +122,7 @@ public class TheWood extends javax.swing.JFrame {
                 }
             }
         });
-        this.burnTimer = new Timer(speed, new ActionListener() {
+        this.burnTimer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 comp.runde();
@@ -164,49 +135,13 @@ public class TheWood extends javax.swing.JFrame {
             }
         });
         initComponents();
-        
-        processing.setUndecorated(true);
-        processing.addMouseListener(new MouseListener(){
-            public void mouseReleased(MouseEvent e) {
-                mouseDownCompCoords = null;
-            }
-            public void mousePressed(MouseEvent e) {
-                mouseDownCompCoords = e.getPoint();
-            }
-            public void mouseExited(MouseEvent e) {
-            }
-            public void mouseEntered(MouseEvent e) {
-            }
-            public void mouseClicked(MouseEvent e) {
-            }
-        });
-
-        processing.addMouseMotionListener(new MouseMotionListener(){
-            public void mouseMoved(MouseEvent e) {
-            }
-
-            public void mouseDragged(MouseEvent e) {
-                Point currCoords = e.getLocationOnScreen();
-                processing.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
-            }
-        });
-        
-        bar.setIndeterminate(true);  
-        bar.setStringPainted(true);   
-        bar.setString("Working..."); 
-        processing.pack();    
-        tSpeed.setName("tSpeed");
-        tSpeed.setInputVerifier(verifier);
-        pbSpeed.setValue(speed);
-        pbSpeed.setMinimum(1);
-        pbSpeed.setMaximum(maxSpeed);
         bRun.setVisible(false);
         bRStep.setVisible(false);
         jToolBar1.setVisible(false);
         try {
             ash = ImageIO.read(new FileInputStream("bilder/Asche.png"));
-            leaf = ImageIO.read(new FileInputStream("bilder/nadelbaum.png"));
-            pin = ImageIO.read(new FileInputStream("bilder/laubbaum.png"));
+            pin = ImageIO.read(new FileInputStream("bilder/nadelbaum.png"));
+            leaf = ImageIO.read(new FileInputStream("bilder/laubbaum.png"));
             bush = ImageIO.read(new FileInputStream("bilder/roehricht.png"));
             fire = ImageIO.read(new FileInputStream("bilder/Feuer.png"));
             stump = ImageIO.read(new FileInputStream("bilder/Baumstumpf.png"));
@@ -224,7 +159,6 @@ public class TheWood extends javax.swing.JFrame {
     }
 
     private void createImg(char[][] wood) {
-        firesList.clear();
         int ht = 20, wd = 20;
         int rows = wood.length;
         int cols = wood[0].length;
@@ -236,26 +170,22 @@ public class TheWood extends javax.swing.JFrame {
             for (int c = 0; c < cols; c++) {
                 switch (wood[r][c]) {
                     case 'B':
-                        gr.drawImage(fire, c * wd, r * ht, this);
-                        firesList.addElement(String.format("%d, %d", r, c));
+                        gr.drawImage(fire, r * ht, c * wd, this);
                         break;
                     case 'L':
-                        gr.drawImage(leaf, c * wd, r * ht, this);
+                        gr.drawImage(leaf, r * ht, c * wd, this);
                         break;
                     case 'N':
-                        gr.drawImage(pin, c * wd, r * ht, this);
+                        gr.drawImage(pin, r * ht, c * wd, this);
                         break;
                     case '-':
-                        gr.drawImage(bush, c * wd, r * ht, this);
+                        gr.drawImage(bush, r * ht, c * wd, this);
                         break;
                     case 'A':
-                        gr.drawImage(ash, c * wd, r * ht, this);
+                        gr.drawImage(ash, r * ht, c * wd, this);
                         break;
                     case 'a':
-                        gr.drawImage(stump, c * wd, r * ht, this);
-                        break;
-                    default:
-                        gr.drawImage(ash, c * wd, r * ht, this);
+                        gr.drawImage(stump, r * ht, c * wd, this);
                         break;
                 }
             }
@@ -268,7 +198,7 @@ public class TheWood extends javax.swing.JFrame {
         int ht = 20, wd = 20;
         int rows = wood.flaeche.length;
         int cols = wood.flaeche[0].length;
-        Graphics gr = null;
+        Graphics gr;
         // create the offscreen buffer and associated Graphics
         image = new BufferedImage(wd * cols, ht * rows, BufferedImage.TYPE_4BYTE_ABGR);
         gr = image.getGraphics();
@@ -277,37 +207,34 @@ public class TheWood extends javax.swing.JFrame {
             for (int c = 0; c < cols; c++) {
                 switch (wood.flaeche[r][c].toChar()) {
                     case 'B':
-                        gr.drawImage(fire, c * wd, r * ht, this);
+                        gr.drawImage(fire, r * ht, c * wd, this);
                         break;
                     case 'L':
-                        gr.drawImage(leaf, c * wd, r * ht, this);
+                        gr.drawImage(leaf, r * ht, c * wd, this);
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, c * wd, r * ht, this);
+                            gr.drawImage(fire, r * ht, c * wd, this);
                         }
                         break;
                     case 'N':
-                        gr.drawImage(pin, c * wd, r * ht, this);
+                        gr.drawImage(pin, r * ht, c * wd, this);
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, c * wd, r * ht, this);
+                            gr.drawImage(fire, r * ht, c * wd, this);
                         }
                         break;
                     case '-':
                         if (wood.flaeche[r][c].brennen) {
                             onfire = true;
-                            gr.drawImage(fire, c * wd, r * ht, this);
+                            gr.drawImage(fire, r * ht, c * wd, this);
                         }
-                        gr.drawImage(bush, c * wd, r * ht, this);
+                        gr.drawImage(bush, r * ht, c * wd, this);
                         break;
                     case 'A':
-                        gr.drawImage(ash, c * wd, r * ht, this);
+                        gr.drawImage(ash, r * ht, c * wd, this);
                         break;
                     case 'a':
-                        gr.drawImage(stump, c * wd, r * ht, this);
-                        break;
-                    default:
-                        gr.drawImage(ash, c * wd, r * ht, this);
+                        gr.drawImage(stump, r * ht, c * wd, this);
                         break;
                 }
             }
@@ -328,20 +255,12 @@ public class TheWood extends javax.swing.JFrame {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            try {
-                g2d.drawImage(image, 0, 0, null);
-            } catch (OutOfMemoryError e) {
-                toBig(e);
-            }
+            g2d.drawImage(image, 0, 0, null);
         }
     }
 
     private boolean draw() {
-        try {
-            createImg();
-        } catch (OutOfMemoryError e) {
-            toBig(e);
-        }
+        createImg();
         if (woodScroll == null) {
             jToolBar1.setVisible(true);
             woodPanel = new W();
@@ -354,50 +273,28 @@ public class TheWood extends javax.swing.JFrame {
             woodScroll.updateUI();
         }
         return true;
-    }
-    
-    private void toBig(OutOfMemoryError e){
-        this.setVisible(false);
-        JOptionPane.showMessageDialog(null, "The wood is to big!", "Error!", JOptionPane.WARNING_MESSAGE);
-        Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, e);
-        mainFrame.refreshView();
     }
 
     public boolean draw(char[][] wood) {
-        try {
-            createImg(wood);
-        } catch (OutOfMemoryError e) {
-            toBig(e);
-        }
+        createImg(wood);
         if (woodScroll == null) {
             jToolBar1.setVisible(true);
+            System.out.print("here!");
             woodPanel = new W();
             woodPanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
             woodScroll = new javax.swing.JScrollPane(woodPanel);
             jPanel2.setLayout(new BorderLayout());
             jPanel2.add(woodScroll, BorderLayout.CENTER);
         } else {
+            System.out.print("there!");
             woodPanel.updateUI();
             woodScroll.updateUI();
         }
         return true;
     }
 
-    protected void compute(final WoodChecker check, final int helpers, final int wantSave, final char mode, final File in, final File out) {
+    protected void compute(WoodChecker check, int helpers, int wantSave, char mode, File in, File out) {
         inFile = in;
-        status.setText(String.format("Processing file '%s'", PathShortener.pathLengthShortener(inFile.getName(), 19))); 
-        worker = new Thread(new Runnable() {
-            public void run() {
-                computing(check, helpers, wantSave, mode, out);
-                processing.dispose();
-            }
-        });
-        processing.setVisible(true);
-        worker.start();
-    }
-    
-    protected void computing(WoodChecker check, int helpers, int wantSave, char mode, File out) {
-        processing.setVisible(true);
         outFile = out;
         inL.setText(PathShortener.pathLengthShortener(inFile.getName(), 15));
         outL.setText(PathShortener.pathLengthShortener(outFile.getName(), 15));
@@ -432,21 +329,10 @@ public class TheWood extends javax.swing.JFrame {
 
             computer.prepare();
             comp = computer;
-            switch (mode) {
-                case 'p':
-                    comp.setModus(Modus.preventievmod);
-                    break;
-                case 'e':
-                    comp.setModus(Modus.ernstfallmod);
-                    break;
-                default:
-                    break;
-            }
             comp.runde();
             draw(comp.getWood());
             bRun.setVisible(true);
             bRStep.setVisible(true);
-            this.setVisible(true);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Some problems by accessing the input file", "Error!", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -466,7 +352,6 @@ public class TheWood extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         fileChooser = new javax.swing.JFileChooser(){
             @Override
@@ -486,18 +371,6 @@ public class TheWood extends javax.swing.JFrame {
         };
         ;
         jMenu2 = new javax.swing.JMenu();
-        wSpeed = new javax.swing.JDialog();
-        xFlabel = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        tSpeed = new javax.swing.JFormattedTextField();
-        jLabel8 = new javax.swing.JLabel();
-        pbSpeed = new javax.swing.JSlider();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lFires = new javax.swing.JList(firesList);
-        processing = new javax.swing.JDialog();
-        bar = new javax.swing.JProgressBar();
-        status = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         bBurn = new javax.swing.JButton();
@@ -528,110 +401,10 @@ public class TheWood extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        bSpeed = new javax.swing.JMenuItem();
-        bFires = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu2.setText("jMenu2");
-
-        wSpeed.setTitle("Add new fire");
-        wSpeed.setResizable(false);
-
-        xFlabel.setText("Speed:");
-
-        jButton5.setText("OK");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Cancel");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        tSpeed.setToolTipText("Valide values: 1-1000");
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, pbSpeed, org.jdesktop.beansbinding.ELProperty.create("${value}"), tSpeed, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
-        jLabel8.setText("ms (1-1000)");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tSpeed, org.jdesktop.beansbinding.ELProperty.create("${value}"), pbSpeed, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        bindingGroup.addBinding(binding);
-
-        javax.swing.GroupLayout wSpeedLayout = new javax.swing.GroupLayout(wSpeed.getContentPane());
-        wSpeed.getContentPane().setLayout(wSpeedLayout);
-        wSpeedLayout.setHorizontalGroup(
-            wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wSpeedLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pbSpeed, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addGroup(wSpeedLayout.createSequentialGroup()
-                        .addComponent(xFlabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(tSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(wSpeedLayout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6)))
-                .addContainerGap())
-        );
-        wSpeedLayout.setVerticalGroup(
-            wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(wSpeedLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(xFlabel)
-                    .addComponent(tSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pbSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(wSpeedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-
-        wSpeed.pack();
-
-        jScrollPane1.setViewportView(lFires);
-
-        processing.setResizable(false);
-
-        status.setText("...");
-        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout processingLayout = new javax.swing.GroupLayout(processing.getContentPane());
-        processing.getContentPane().setLayout(processingLayout);
-        processingLayout.setHorizontalGroup(
-            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(processingLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        processingLayout.setVerticalGroup(
-            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(status)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        setTitle("WBSPlayer");
 
         jToolBar1.setRollover(true);
 
@@ -826,25 +599,12 @@ public class TheWood extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu4.setText("Extras");
+        jMenu3.setText("Help");
 
-        bSpeed.setText("Change animation speed");
-        bSpeed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bSpeedActionPerformed(evt);
-            }
-        });
-        jMenu4.add(bSpeed);
+        jMenuItem4.setText("About");
+        jMenu3.add(jMenuItem4);
 
-        bFires.setText("List positions of fire sources");
-        bFires.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bFiresActionPerformed(evt);
-            }
-        });
-        jMenu4.add(bFires);
-
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -867,30 +627,15 @@ public class TheWood extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        bindingGroup.bind();
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    protected void show(final File file, final File out) {
-        inFile = file;
-        status.setText(String.format("Processing file '%s'", PathShortener.pathLengthShortener(inFile.getName(), 19))); 
-        worker = new Thread(new Runnable() {
-            public void run() {
-                showing(out);
-                processing.dispose();
-            }
-        });
-        processing.setVisible(true);
-        worker.start();
-    }
-
-    protected void showing(File out) {
+    protected void show(File file, File out) {
         if (out != null) {
             outFile = out;
             outL.setText(PathShortener.pathLengthShortener(outFile.getName(), 15));
         }
+        inFile = file;
         bRun.setVisible(false);
         bRStep.setVisible(false);
         helpL.setText(0 + "");
@@ -911,7 +656,6 @@ public class TheWood extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(true);
         this.revalidate();
     }
 
@@ -936,19 +680,6 @@ public class TheWood extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void bBStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBStepActionPerformed
-        if (isRunning) {
-            int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            switch (result) {
-                case JOptionPane.YES_OPTION:
-                    isRunning = false;
-                    break;
-                case JOptionPane.NO_OPTION:
-                    return;
-                case JOptionPane.CLOSED_OPTION:
-                    return;
-            }
-        }
-        isBurning=true;
         comp.runde();
         nextRound();
         draw();
@@ -958,15 +689,14 @@ public class TheWood extends javax.swing.JFrame {
         working = false;
     }//GEN-LAST:event_bPauseActionPerformed
 
-    private void reset(){
+    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
         working = false;
         round = 0;
         lRound.setText(round + "");
-        if (isRunning) {
+        if (bRun.isVisible()) {
             compute(new WoodChecker(inFile), Integer.parseInt(helpL.getText()),
                     Integer.parseInt(saveL.getText()), lMode.getText().charAt(0), inFile, outFile);
-            isRunning=false;
-        } else if (isBurning){
+        } else {
             WoodChecker check = new WoodChecker(inFile);
             wald wood = new wald(check.wood);
             Computer computer;
@@ -977,69 +707,24 @@ public class TheWood extends javax.swing.JFrame {
                 comp = computer;
                 draw(check.wood);
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, "Problems by accessing the output file!\nPlease restart WBS!", "Error!", JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, ex);
             }
-            isBurning=false;
         }
-    }
-    
-    private void bResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bResetActionPerformed
-        reset();
     }//GEN-LAST:event_bResetActionPerformed
 
     private void bRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRunActionPerformed
-        if(isBurning){
-            int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            switch (result) {
-                case JOptionPane.YES_OPTION:
-                    reset();
-                    break;
-                case JOptionPane.NO_OPTION:
-                    return;
-                case JOptionPane.CLOSED_OPTION:
-                    return;
-            }
-        }
-        isRunning=true;
         working = true;
         checkTrees = true;
         runTimer.start();
     }//GEN-LAST:event_bRunActionPerformed
 
     private void bBurnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBurnActionPerformed
-        if(isRunning){
-            int result = JOptionPane.showConfirmDialog(null, "You can't continue Run after that!\nResume?", "Switching to burn", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            switch (result) {
-                case JOptionPane.YES_OPTION:
-                    isRunning = false;
-                    break;
-                case JOptionPane.NO_OPTION:
-                    return;
-                case JOptionPane.CLOSED_OPTION:
-                    return;
-            }
-        }
-        isBurning=true;
         working = true;
         checkTrees = false;
         burnTimer.start();
     }//GEN-LAST:event_bBurnActionPerformed
 
     private void bRStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRStepActionPerformed
-         if(isBurning){
-            int result = JOptionPane.showConfirmDialog(null, "Burning progress wil be resetted!\nResume?", "Switching to run", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            switch (result) {
-                case JOptionPane.YES_OPTION:
-                    reset();
-                    break;
-                case JOptionPane.NO_OPTION:
-                    return;
-                case JOptionPane.CLOSED_OPTION:
-                    return;
-            }
-        }
-        isRunning=true;
         comp.helfersteuerung();
         comp.runde();
         nextRound();
@@ -1084,31 +769,6 @@ public class TheWood extends javax.swing.JFrame {
         showStates();
     }//GEN-LAST:event_bStateActionPerformed
 
-    private boolean setSpeed(int pSpeed) {
-        runTimer.setDelay(speed);
-        burnTimer.setDelay(speed);
-        speed = pSpeed;
-        return true;
-    }
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if (setSpeed((int) tSpeed.getValue())) {
-            wSpeed.setVisible(false);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        wSpeed.setVisible(false);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void bSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSpeedActionPerformed
-        wSpeed.setVisible(true);
-    }//GEN-LAST:event_bSpeedActionPerformed
-
-    private void bFiresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bFiresActionPerformed
-        JOptionPane.showMessageDialog(this, lFires, "Fire sources", JOptionPane.PLAIN_MESSAGE);
-    }//GEN-LAST:event_bFiresActionPerformed
-
     private void finish() {
         String[] options = new String[]{"OK", "Write Wood to the output"};
         int result = JOptionPane.showOptionDialog(null,
@@ -1128,7 +788,7 @@ public class TheWood extends javax.swing.JFrame {
     private void showStates() {
         String[] options = new String[]{"OK"};
         JOptionPane.showOptionDialog(null,
-                String.format("Round: %d\nLost trees: %f %%\nTrees felled: %d\nTrees remains: %d",
+                String.format("Runde: %d\nLost trees: %f %%\nTrees felled: %d\nTrees remains: %d",
                         round, ((1 - trees) * 100), comp.getGefällt(), comp.getWald().Bäume), "Stats",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
     }
@@ -1162,55 +822,19 @@ public class TheWood extends javax.swing.JFrame {
         });
     }
 
-    private class Verifier extends InputVerifier {
-
-        @Override
-        public boolean verify(JComponent input) {
-            int tmp;
-            JTextField text = (JTextField) input;
-            String value = text.getText().trim();
-            try {
-                tmp = Integer.parseInt(value);
-                switch (text.getName()) {
-                    case "tSpeed":
-                        if (tmp < 1 || tmp > maxSpeed) {
-                            throw new NumberFormatException();
-                        }
-                        speed = tmp;
-                        break;
-                    default:
-                }
-            } catch (NumberFormatException e) {
-                switch (input.getName()) {
-                    case "tSpeed":
-                        text.setText(speed + "");
-                        break;
-                    default:
-                }
-                return false;
-            }
-            return true;
-        }
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBStep;
     private javax.swing.JButton bBurn;
-    private javax.swing.JMenuItem bFires;
     private javax.swing.JButton bPause;
     private javax.swing.JButton bRStep;
     private javax.swing.JButton bReset;
     private javax.swing.JButton bRun;
-    private javax.swing.JMenuItem bSpeed;
     private javax.swing.JButton bState;
     private javax.swing.JButton bWrite;
-    private javax.swing.JProgressBar bar;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel helpL;
     private javax.swing.JLabel inL;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1218,30 +842,21 @@ public class TheWood extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
-    private javax.swing.JList lFires;
     private javax.swing.JLabel lMode;
     private javax.swing.JLabel lRound;
     private javax.swing.JLabel outL;
-    private javax.swing.JSlider pbSpeed;
-    private javax.swing.JDialog processing;
     private javax.swing.JLabel saveL;
-    private javax.swing.JLabel status;
-    private javax.swing.JFormattedTextField tSpeed;
-    private javax.swing.JDialog wSpeed;
-    private javax.swing.JLabel xFlabel;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
