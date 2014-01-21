@@ -65,6 +65,9 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JDialog" name="dAbout">
+      <Properties>
+        <Property name="title" type="java.lang.String" value="About"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -303,6 +306,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mViewerActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="bTest">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Crashtest"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bTestActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mExit">

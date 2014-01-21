@@ -84,8 +84,9 @@ public class TheWood extends javax.swing.JFrame {
     private boolean isRunning=false;
     private boolean isBurning=false;
     private Thread worker;
-    private static Point mouseDownCompCoords;
+    protected static Point mouseDownCompCoords;
     private boolean prevent;
+    private boolean read;
 
     private boolean work() {
         return working;
@@ -481,6 +482,10 @@ public class TheWood extends javax.swing.JFrame {
             @Override
             public void approveSelection(){
                 File f = getSelectedFile();
+                if(read){
+                    super.approveSelection();
+                    return;
+                }
                 if(f.exists()){
                     if(!readFileData(f)){
                         JOptionPane.showMessageDialog(this,"That is not a Wood-File","Wrong file!",JOptionPane.INFORMATION_MESSAGE);
@@ -925,6 +930,7 @@ public class TheWood extends javax.swing.JFrame {
     }
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        read=false;
         if (inFile == null) {
             fileChooser.setCurrentDirectory(new File("src/data/wald"));
         } else {
@@ -1058,6 +1064,7 @@ public class TheWood extends javax.swing.JFrame {
     }//GEN-LAST:event_bRStepActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        read=true;
         if (outFile == null) {
             fileChooser.setCurrentDirectory(new File("src/data/out"));
         } else {
@@ -1077,6 +1084,17 @@ public class TheWood extends javax.swing.JFrame {
         if (outFile == null) {
             JOptionPane.showMessageDialog(this, "Select the output first!", "No file selected", JOptionPane.WARNING_MESSAGE);
             return;
+        }
+        if(outFile.exists()){
+            int result = JOptionPane.showConfirmDialog(this,"Overwrite '"+ outFile.getName() + "'?","File exists!",JOptionPane.YES_NO_OPTION);
+            switch(result){
+                case JOptionPane.YES_OPTION:
+                break;
+                case JOptionPane.NO_OPTION:
+                return;
+                case JOptionPane.CLOSED_OPTION:
+                return;
+            }
         }
         try {
             waldgenerator.write(comp.getWood(), outFile);

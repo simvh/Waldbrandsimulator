@@ -149,6 +149,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mViewer = new javax.swing.JMenuItem();
+        bTest = new javax.swing.JMenuItem();
         mExit = new javax.swing.JMenuItem();
         mHelp = new javax.swing.JMenu();
         mAbout = new javax.swing.JMenuItem();
@@ -189,6 +190,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        dAbout.setTitle("About");
 
         jButton4.setText("OK");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -408,6 +411,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mFile.add(mViewer);
 
+        bTest.setText("Crashtest");
+        bTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bTestActionPerformed(evt);
+            }
+        });
+        mFile.add(bTest);
+
         mExit.setText("Exit");
         mExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -615,7 +626,9 @@ public class MainFrame extends javax.swing.JFrame {
             case JOptionPane.CLOSED_OPTION:
                 return;
         }
+        view.dispose();
         view=null;
+        gen.dispose();
         gen=null;
         System.gc();
         Thread worker;
@@ -711,6 +724,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bOpenOut;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
+    private javax.swing.JMenuItem bTest;
     private javax.swing.JProgressBar bar;
     private javax.swing.JDialog dAbout;
     private javax.swing.JDialog dReplace;
