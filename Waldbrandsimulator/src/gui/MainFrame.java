@@ -6,28 +6,18 @@
 
 package gui;
 
-import control.Computer;
-import control.Modus;
 import static gui.TheWood.mouseDownCompCoords;
 import java.awt.Point;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 import javax.swing.JTextField;
-import javax.swing.text.NumberFormatter;
-import wald.Helfer;
-import wald.wald;
 
 /**
  *
@@ -69,7 +59,7 @@ public class MainFrame extends javax.swing.JFrame {
         initFrames();
         helpers=Integer.parseInt(tHCount.getText());
         MBSaved=Integer.parseInt(tMBSaved.getText());
-                processing.setResizable(false);
+        processing.setResizable(false);
         processing.setUndecorated(true);
         processing.addMouseListener(new MouseListener(){
             public void mouseReleased(MouseEvent e) {
@@ -136,6 +126,10 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        processing = new javax.swing.JDialog();
+        bar = new javax.swing.JProgressBar();
+        status = new javax.swing.JLabel();
+        stopTest = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tInput = new javax.swing.JLabel();
@@ -222,7 +216,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel11.setText("Phillip Klinkhammer");
 
-        jLabel17.setText("Florian Krüger ‎");
+        jLabel17.setText("Florian Krüger ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -302,6 +296,40 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addContainerGap())
+        );
+
+        processing.setResizable(false);
+
+        status.setText("...");
+        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        stopTest.setText("Interrupt after current dim");
+
+        javax.swing.GroupLayout processingLayout = new javax.swing.GroupLayout(processing.getContentPane());
+        processing.getContentPane().setLayout(processingLayout);
+        processingLayout.setHorizontalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(processingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bar, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stopTest)
+                .addGap(40, 40, 40))
+        );
+        processingLayout.setVerticalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(status)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stopTest)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -683,6 +711,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bOpenOut;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
+    private javax.swing.JProgressBar bar;
     private javax.swing.JDialog dAbout;
     private javax.swing.JDialog dReplace;
     private javax.swing.JFileChooser fileChooser;
@@ -715,6 +744,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu mHelp;
     private javax.swing.JMenuItem mViewer;
+    private javax.swing.JDialog processing;
+    private javax.swing.JLabel status;
+    private javax.swing.JButton stopTest;
     private javax.swing.JFormattedTextField tHCount;
     private javax.swing.JLabel tInput;
     private javax.swing.JFormattedTextField tMBSaved;
