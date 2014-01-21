@@ -1,13 +1,9 @@
 package control;
 
-import gui.TheWood;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.util.*;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wald.*;
@@ -45,7 +41,7 @@ public class Computer {
         this.brenn = new wald(this.outstr);
         this.helfer = helfer;
         Helfer.wald = this.wald;
-        this.asche = new ArrayList<Asche>();
+        this.asche = new ArrayList<>();
         this.ziele = new Asche[helfer.length];
         this.weg = new Weg[helfer.length];
         this.wood = new char[wald.flaeche.length][wald.flaeche[0].length];
@@ -75,9 +71,7 @@ public class Computer {
 
     public void prepare() {
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-        if (this.wald.Waldbestand == 0) {
-            throw (new keinWaldExeption());
-        }
+        if (this.wald.Waldbestand == 0) return;
         this.abbrennen(rest);
         Waldflaeche.wald = this.wald;
         for (int i = 0; i < this.brenn.flaeche.length; i++) {
@@ -91,14 +85,19 @@ public class Computer {
         Collections.sort(this.asche);
         Collections.reverse(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) { }
         }
     }
-    
-    public void runde(){
+
+    public void runde() {
         wald.runde(wood);
+        if (da) {
+            try {
+                neubrennen();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void berechnen() {
@@ -125,9 +124,7 @@ public class Computer {
         Collections.reverse(this.asche);
 //	System.out.println(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) { }
         }
 //	System.out.println("Hier");
         helfersteuerung();
@@ -156,14 +153,13 @@ public class Computer {
                 helfersteuerung();
                 this.wald.runde();
                 helfersteuerung();
-                try {
                     if (da) {
-                        neubrennen();
+                        try {
+                            neubrennen();
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
 
             }
         }
@@ -327,20 +323,20 @@ public class Computer {
                     broken = true;
                 }
                 if (this.brenn.flaeche[helfer.x][helfer.y].toString().equals("A")) {
-                    if (((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde - 2 < rund) {
+                    if (((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde - 2 <= rund) {
                         switch (this.wald.flaeche[helfer.x][helfer.y].toString()) {
                             case "L":
-                                if (rund  <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 5) {
+                                if (rund - 2 <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 5) {
                                     broken = true;
                                 }
                                 break;
                             case "N":
-                                if (rund  <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 3) {
+                                if (rund - 2 <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 3) {
                                     broken = true;
                                 }
                                 break;
                             case "-":
-                                if (rund  <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 2) {
+                                if (rund - 2 <= ((Asche) this.brenn.flaeche[helfer.x][helfer.y]).runde + 2) {
                                     broken = true;
                                 }
                                 break;
@@ -705,7 +701,8 @@ public class Computer {
                             try {
                                 neubrennen();
                                 preventiev(i);
-                            } catch (FileNotFoundException e) {
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
                         case ernstfallmod:
@@ -794,12 +791,12 @@ public class Computer {
     public wald getWald() {
         return wald;
     }
-    
+
     public char[][] getWood() {
         return wood;
     }
-    
-    public int getGefällt(){
+
+    public int getGefällt() {
         return gefällt;
     }
 }
