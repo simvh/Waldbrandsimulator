@@ -75,9 +75,7 @@ public class Computer {
 
     public void prepare() {
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-        if (this.wald.Waldbestand == 0) {
-            throw (new keinWaldExeption());
-        }
+        if (this.wald.Waldbestand == 0) return;
         this.abbrennen(rest);
         Waldflaeche.wald = this.wald;
         for (int i = 0; i < this.brenn.flaeche.length; i++) {
@@ -91,9 +89,7 @@ public class Computer {
         Collections.sort(this.asche);
         Collections.reverse(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) {}
         }
     }
     
@@ -103,8 +99,7 @@ public class Computer {
         	try {
 				neubrennen();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, e);
 			}
         }
     }
@@ -133,9 +128,7 @@ public class Computer {
         Collections.reverse(this.asche);
 //	System.out.println(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) {
-                continue;
-            }
+            if (!zielermitteln(i)) {}
         }
 //	System.out.println("Hier");
         helfersteuerung();
@@ -164,13 +157,12 @@ public class Computer {
                 helfersteuerung();
                 this.wald.runde();
                 helfersteuerung();
-                try {
-                    if (da) {
+                if (da) {
+                    try {
                         neubrennen();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
 
             }
@@ -713,7 +705,8 @@ public class Computer {
                             try {
                                 neubrennen();
                                 preventiev(i);
-                            } catch (FileNotFoundException e) {
+                            } catch (FileNotFoundException ex) {
+                                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             break;
                         case ernstfallmod:

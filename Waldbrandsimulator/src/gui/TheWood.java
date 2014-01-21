@@ -330,7 +330,8 @@ public class TheWood extends javax.swing.JFrame {
             Graphics2D g2d = (Graphics2D) g;
             try {
                 g2d.drawImage(image, 0, 0, null);
-            } catch (OutOfMemoryError e) {
+            } catch (java.lang.OutOfMemoryError e) {
+                if(mainFrame==null) throw e;
                 toBig(e);
             }
         }
@@ -339,7 +340,8 @@ public class TheWood extends javax.swing.JFrame {
     private boolean draw() {
         try {
             createImg();
-        } catch (OutOfMemoryError e) {
+        } catch (java.lang.OutOfMemoryError e) {
+            if(mainFrame==null) throw e;
             toBig(e);
         }
         if (woodScroll == null) {
@@ -357,6 +359,7 @@ public class TheWood extends javax.swing.JFrame {
     }
     
     private void toBig(OutOfMemoryError e){
+        processing.setVisible(false);
         this.setVisible(false);
         JOptionPane.showMessageDialog(null, "The wood is to big!", "Error!", JOptionPane.WARNING_MESSAGE);
         Logger.getLogger(TheWood.class.getName()).log(Level.SEVERE, null, e);
@@ -366,7 +369,8 @@ public class TheWood extends javax.swing.JFrame {
     public boolean draw(char[][] wood) {
         try {
             createImg(wood);
-        } catch (OutOfMemoryError e) {
+        } catch (OutOfMemoryError e) {        
+            if(mainFrame==null) throw e;            
             toBig(e);
         }
         if (woodScroll == null) {
@@ -394,10 +398,10 @@ public class TheWood extends javax.swing.JFrame {
         });
         processing.setVisible(true);
         worker.start();
+        this.setVisible(true);
     }
     
     protected void computing(WoodChecker check, int helpers, int wantSave, char mode, File out) {
-        processing.setVisible(true);
         outFile = out;
         inL.setText(PathShortener.pathLengthShortener(inFile.getName(), 15));
         outL.setText(PathShortener.pathLengthShortener(outFile.getName(), 15));
@@ -449,7 +453,6 @@ public class TheWood extends javax.swing.JFrame {
             draw(comp.getWood());
             bRun.setVisible(true);
             bRStep.setVisible(true);
-            this.setVisible(true);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Some problems by accessing the input file", "Error!", JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1196,6 +1199,18 @@ public class TheWood extends javax.swing.JFrame {
         }
     }
 
+    protected void test(int n){
+        for(int i=0; i<n; i++){
+            comp.helfersteuerung();
+            comp.runde();
+            draw();
+        }
+    }
+     protected void computest(final WoodChecker check, final int helpers, final int wantSave, final char mode, final File in, final File out) {
+        inFile = in;
+        computing(check, helpers, wantSave, mode, out);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBStep;

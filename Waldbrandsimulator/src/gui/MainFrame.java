@@ -8,8 +8,13 @@ package gui;
 
 import control.Computer;
 import control.Modus;
+import static gui.TheWood.mouseDownCompCoords;
+import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,10 +44,16 @@ public class MainFrame extends javax.swing.JFrame {
     private GenFrame gen;
     private TheWood view;
     private Verifier verifier;
+    private Crashtest test;
 
     protected void setIn(File file){
         inFile=file;
         tInput.setText(PathShortener.pathLengthShortener(inFile.getName(),27));
+    }
+    
+    private void initFrames(){
+        gen=new GenFrame(this);
+        view=new TheWood(this);
     }
     /**
      * Creates new form MainFrame
@@ -55,10 +66,45 @@ public class MainFrame extends javax.swing.JFrame {
         tMBSaved.setName("tMBSaved");
         tHCount.setInputVerifier(verifier);
         tMBSaved.setInputVerifier(verifier);
-        gen=new GenFrame(this);
-        view=new TheWood(this);
+        initFrames();
         helpers=Integer.parseInt(tHCount.getText());
         MBSaved=Integer.parseInt(tMBSaved.getText());
+                processing.setResizable(false);
+        processing.setUndecorated(true);
+        processing.addMouseListener(new MouseListener(){
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+            }
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+            public void mouseExited(MouseEvent e) {
+            }
+            public void mouseEntered(MouseEvent e) {
+            }
+            public void mouseClicked(MouseEvent e) {
+            }
+        });
+
+        processing.addMouseMotionListener(new MouseMotionListener(){
+            public void mouseMoved(MouseEvent e) {
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                processing.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+            }
+        });
+        
+        bar.setIndeterminate(true);  
+        bar.setStringPainted(true);   
+        bar.setString("Working..."); 
+        stopTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                test.stop();
+            }
+        });
+        processing.pack();
     }
         
     /**
@@ -90,6 +136,10 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        processing = new javax.swing.JDialog();
+        bar = new javax.swing.JProgressBar();
+        status = new javax.swing.JLabel();
+        stopTest = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tInput = new javax.swing.JLabel();
@@ -109,6 +159,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mViewer = new javax.swing.JMenuItem();
+        bTest = new javax.swing.JMenuItem();
         mExit = new javax.swing.JMenuItem();
         mHelp = new javax.swing.JMenu();
         mAbout = new javax.swing.JMenuItem();
@@ -258,6 +309,40 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        processing.setResizable(false);
+
+        status.setText("...");
+        status.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        stopTest.setText("Stop after current test");
+
+        javax.swing.GroupLayout processingLayout = new javax.swing.GroupLayout(processing.getContentPane());
+        processing.getContentPane().setLayout(processingLayout);
+        processingLayout.setHorizontalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(processingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                    .addComponent(bar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(processingLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(stopTest)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        processingLayout.setVerticalGroup(
+            processingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, processingLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(status)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stopTest)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WBS");
 
@@ -333,6 +418,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         mFile.add(mViewer);
+
+        bTest.setText("Test your System");
+        bTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bTestActionPerformed(evt);
+            }
+        });
+        mFile.add(bTest);
 
         mExit.setText("Exit");
         mExit.addActionListener(new java.awt.event.ActionListener() {
@@ -446,7 +539,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     protected void refreshView(){
-        view=new TheWood(this);
+        view=new TheWood(this);        
     }
     
     private void bOpenOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bOpenOutActionPerformed
@@ -530,6 +623,35 @@ public class MainFrame extends javax.swing.JFrame {
     private void mAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAboutActionPerformed
         dAbout.setVisible(true);
     }//GEN-LAST:event_mAboutActionPerformed
+
+    private void bTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTestActionPerformed
+        int result = JOptionPane.showConfirmDialog(null, "Please save all data befor start!\nAll unsaved data will be lost!\nContinue?", "Crashtest!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                break;
+            case JOptionPane.NO_OPTION:
+                return;
+            case JOptionPane.CLOSED_OPTION:
+                return;
+        }
+        view=null;
+        gen=null;
+        System.gc();
+        Thread worker;
+        status.setText("Initialize test"); 
+        test=new Crashtest(status);
+        test.prepare();
+        worker = new Thread(new Runnable() {
+            public void run() {
+                test.start();
+                processing.setVisible(false);
+                test=null;
+                initFrames();
+            }
+        });
+        processing.setVisible(true);
+        worker.start();
+    }//GEN-LAST:event_bTestActionPerformed
         
     private void tHCountActionPerformed(FocusEvent evt) {                                        
         if(tHCount.getText().equals("")){
@@ -608,6 +730,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton bOpenOut;
     private javax.swing.JButton bRun;
     private javax.swing.JButton bShowIn;
+    private javax.swing.JMenuItem bTest;
+    private javax.swing.JProgressBar bar;
     private javax.swing.JDialog dAbout;
     private javax.swing.JDialog dReplace;
     private javax.swing.JFileChooser fileChooser;
@@ -640,6 +764,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu mHelp;
     private javax.swing.JMenuItem mViewer;
+    private javax.swing.JDialog processing;
+    private javax.swing.JLabel status;
+    private javax.swing.JButton stopTest;
     private javax.swing.JFormattedTextField tHCount;
     private javax.swing.JLabel tInput;
     private javax.swing.JFormattedTextField tMBSaved;
