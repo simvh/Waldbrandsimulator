@@ -1,9 +1,13 @@
 package control;
 
+import gui.TheWood;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.util.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wald.*;
@@ -41,7 +45,7 @@ public class Computer {
         this.brenn = new wald(this.outstr);
         this.helfer = helfer;
         Helfer.wald = this.wald;
-        this.asche = new ArrayList<>();
+        this.asche = new ArrayList<Asche>();
         this.ziele = new Asche[helfer.length];
         this.weg = new Weg[helfer.length];
         this.wood = new char[wald.flaeche.length][wald.flaeche[0].length];
@@ -71,7 +75,9 @@ public class Computer {
 
     public void prepare() {
 //System.out.println(Math.round(((double)(this.wald.flaeche.length+this.wald.flaeche[0].length)*20)/100));
-        if (this.wald.Waldbestand == 0) return;
+        if (this.wald.Waldbestand == 0) {
+            throw (new keinWaldExeption());
+        }
         this.abbrennen(rest);
         Waldflaeche.wald = this.wald;
         for (int i = 0; i < this.brenn.flaeche.length; i++) {
@@ -85,18 +91,21 @@ public class Computer {
         Collections.sort(this.asche);
         Collections.reverse(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) { }
+            if (!zielermitteln(i)) {
+                continue;
+            }
         }
     }
-
-    public void runde() {
+    
+    public void runde(){
         wald.runde(wood);
-        if (da) {
-            try {
-                neubrennen();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if(da){
+        	try {
+				neubrennen();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 
@@ -124,7 +133,9 @@ public class Computer {
         Collections.reverse(this.asche);
 //	System.out.println(this.asche);
         for (int i = 0; i < this.helfer.length; i++) {
-            if (!zielermitteln(i)) { }
+            if (!zielermitteln(i)) {
+                continue;
+            }
         }
 //	System.out.println("Hier");
         helfersteuerung();
@@ -153,13 +164,14 @@ public class Computer {
                 helfersteuerung();
                 this.wald.runde();
                 helfersteuerung();
+                try {
                     if (da) {
-                        try {
-                            neubrennen();
-                        } catch (FileNotFoundException ex) {
-                            Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        neubrennen();
                     }
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
             }
         }
@@ -701,8 +713,7 @@ public class Computer {
                             try {
                                 neubrennen();
                                 preventiev(i);
-                            } catch (FileNotFoundException ex) {
-                                Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (FileNotFoundException e) {
                             }
                             break;
                         case ernstfallmod:
@@ -791,12 +802,12 @@ public class Computer {
     public wald getWald() {
         return wald;
     }
-
+    
     public char[][] getWood() {
         return wood;
     }
-
-    public int getGefällt() {
+    
+    public int getGefällt(){
         return gefällt;
     }
 }
