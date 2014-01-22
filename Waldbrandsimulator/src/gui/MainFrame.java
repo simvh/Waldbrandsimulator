@@ -131,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
         status = new javax.swing.JLabel();
         stopTest = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        MBSl = new javax.swing.JLabel();
         tInput = new javax.swing.JLabel();
         tOutput = new javax.swing.JLabel();
         bOpenIn = new javax.swing.JButton();
@@ -145,7 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         tHCount = new javax.swing.JFormattedTextField();
         tMBSaved = new javax.swing.JFormattedTextField();
-        jLabel7 = new javax.swing.JLabel();
+        procent = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mFile = new javax.swing.JMenu();
         mViewer = new javax.swing.JMenuItem();
@@ -340,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Helpercount:");
 
-        jLabel2.setText("Must be saved:");
+        MBSl.setText("Must be saved:");
 
         tInput.setText("browse/create a file");
         tInput.setName(""); // NOI18N
@@ -385,6 +385,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("Mode:");
 
         lMode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Emergency", "Preventive" }));
+        lMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lModeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Input:");
 
@@ -396,7 +401,7 @@ public class MainFrame extends javax.swing.JFrame {
         tMBSaved.setText("50");
         tMBSaved.setToolTipText("Valide values: 0-100");
 
-        jLabel7.setText("%");
+        procent.setText("%");
 
         mFile.setText("File");
 
@@ -461,33 +466,33 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(bOpenIn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bGenWood)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bShowIn))
                             .addComponent(bOpenOut)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(tHCount))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(137, 137, 137)
-                                .addComponent(bRun))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tHCount))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(MBSl)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)))
+                                .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(procent)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bRun)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,24 +510,24 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tOutput)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bOpenOut)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(tHCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(lMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(MBSl)
+                    .addComponent(procent)
+                    .addComponent(tMBSaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(bRun)
-                .addContainerGap())
+                .addGap(38, 38, 38))
         );
 
         bindingGroup.bind();
@@ -646,6 +651,23 @@ public class MainFrame extends javax.swing.JFrame {
         processing.setVisible(true);
         worker.start();
     }//GEN-LAST:event_bTestActionPerformed
+
+    private void lModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lModeActionPerformed
+        switch(lMode.getSelectedIndex()){
+            case 0: 
+                MBSl.setVisible(true);
+                tMBSaved.setVisible(true);
+                procent.setVisible(true);
+                break;
+            case 1:
+                MBSl.setVisible(false);
+                tMBSaved.setVisible(false);
+                procent.setVisible(false);
+                break;
+            default:
+        }
+            
+    }//GEN-LAST:event_lModeActionPerformed
         
     private void tHCountActionPerformed(FocusEvent evt) {                                        
         if(tHCount.getText().equals("")){
@@ -719,6 +741,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel MBSl;
     private javax.swing.JButton bGenWood;
     private javax.swing.JButton bOpenIn;
     private javax.swing.JButton bOpenOut;
@@ -742,12 +765,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
@@ -758,6 +779,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu mFile;
     private javax.swing.JMenu mHelp;
     private javax.swing.JMenuItem mViewer;
+    private javax.swing.JLabel procent;
     private javax.swing.JDialog processing;
     private javax.swing.JLabel status;
     private javax.swing.JButton stopTest;

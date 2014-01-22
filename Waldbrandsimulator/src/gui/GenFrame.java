@@ -81,7 +81,7 @@ public class GenFrame extends javax.swing.JFrame {
                 this.xSize = x;
                 this.ySize = y;
                 tX.setText(x+"");
-                tY.setText(x+"");
+                tY.setText(y+"");
                 generated=f;
                 return true;
             case JOptionPane.NO_OPTION:

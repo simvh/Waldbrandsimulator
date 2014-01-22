@@ -33,6 +33,7 @@ public class wald {
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;break;
+                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				}
 			}
 		}
@@ -63,6 +64,7 @@ public class wald {
 				case 'B': flaeche[x][y]= new Brand(x,y);this.Bäume--;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				case'a': flaeche[x][y]=new abgeholzt(x,y);this.Bäume--;break;
+                                default: flaeche[x][y]=new Asche(x,y,0);this.Bäume--;break;
 				}
 			}
 		}
@@ -85,6 +87,7 @@ public class wald {
 				case 'B': flaeche[x][y]= new Brand(x,y);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
 				case 'A': flaeche[x][y]=new Asche(x,y,0);flaeche[x][y].brennen=w.flaeche[x][y].brennen;flaeche[x][y].brennzeit=w.flaeche[x][y].brennzeit;flaeche[x][y].zuendcounter=w.flaeche[x][y].zuendcounter;break;
 				case 'a': flaeche[x][y]=new abgeholzt(x,y);break;
+                                default: flaeche[x][y]=new Asche(x,y,0);break;
 				}
 				}
 			}

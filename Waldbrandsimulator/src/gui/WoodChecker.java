@@ -51,7 +51,7 @@ public class WoodChecker {
             }
             if(x<1||y<1) return false;
             tmp = 0;
-            wood=new char[x][];
+            wood=new char[x][y];
             while (sc.hasNext()) {
                 line = sc.next();
                 if(line.matches("\\s")) continue;
@@ -75,7 +75,6 @@ public class WoodChecker {
         size=new int[]{x,y};
         return true;
     }
-    
     protected boolean isWood(){
         return itIs;
     }
